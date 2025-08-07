@@ -10,6 +10,12 @@ public class AssetProvider
     private readonly Dictionary<string, List<AsyncOperationHandle>> m_Handles = new();
     private readonly Dictionary<string, List<GameObject>> m_SpawnedObjects = new();
 
+    public T LoadAssetSync<T>(string key) where T : UnityEngine.Object
+    {
+        var result = Addressables.LoadAssetAsync<T>(key).WaitForCompletion();
+        return result;
+    }
+    
     public async Task<T> LoadAssetAsync<T>(AssetReference reference) where T : class
     {
         return await LoadAssetAsync<T>(reference.AssetGUID);
