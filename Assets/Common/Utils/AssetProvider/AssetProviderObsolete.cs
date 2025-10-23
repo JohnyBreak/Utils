@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class AssetProvider
+public class AssetProviderObsolete
 {
     private readonly Dictionary<string, AsyncOperationHandle> m_CompletedCache = new();
     private readonly Dictionary<string, List<AsyncOperationHandle>> m_Handles = new();
