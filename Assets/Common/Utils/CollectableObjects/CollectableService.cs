@@ -17,10 +17,14 @@ namespace Collectables
 
         public CollectableService(
             AssetProvider assetProvider,
-            CollectableResolver resolver,
+            TestCollectableContainer container,
             CollectableFloatingTextCanvas canvas)
         {
-            _resolver = resolver;
+            _resolver = new CollectableResolver(new List<ICollector>()
+            {
+                new PistolAmmoCollector(container)
+            });
+            
             _canvas = canvas;
             _factory = new CollectableFactory(assetProvider, OnEnter, OnExit, OnCollect);
             
