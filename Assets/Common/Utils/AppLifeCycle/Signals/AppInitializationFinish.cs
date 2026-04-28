@@ -1,0 +1,6 @@
+﻿namespace Source.Scripts.App
+{
+    public readonly struct AppInitializationFinish
+    {
+    }
+}
