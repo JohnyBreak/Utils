@@ -1,11 +1,17 @@
+using Common.Utils.Items.External;
 using Common.Utils.Items.Runtime.Components;
-using Common.Utils.Items.Runtime.States;
-using UnityEngine;
 
 namespace Common.Utils.Items.Runtime.UseHandlers
 {
     public class ShootHandler : IActionHandler
     {
+        private readonly IShootAdapter _adapter;
+
+        public ShootHandler(IShootAdapter adapter)
+        {
+            _adapter = adapter;
+        }
+
         public bool TryExecute(IItem item, IItemComponent component)
         {
             if (!(component is ShootItemComponent shootItemComponent))
@@ -13,23 +19,21 @@ namespace Common.Utils.Items.Runtime.UseHandlers
                 return false;
             }
 
-            if (!item.TryGetState<ShootItemComponent>(out var state))
+            if(!shootItemComponent.CanUse())
             {
                 return false;
             }
 
-            if (!(state is ShootItemState shootState))
-            {
-                return false;
-            }
+            var def = shootItemComponent.GetBulletDef();
+            var position = shootItemComponent.GetShootPosition();
 
-            if(!shootItemComponent.CanUse(shootState))
-            {
-                return false;
-            }
-
-            shootState.AmoAmount--;
-            Debug.LogError(shootState.AmoAmount);
+            // TODO взять откуда-нибудь из aim сервиса куда персонаж целится
+            var direction = position.forward;
+            
+            
+            _adapter.Shoot(def, position.position, direction);
+            //мб надо тут проверить отработал ли адаптер, если да, то вызывать шут у компонента
+            shootItemComponent.Shoot();
             return true;
         }
     }

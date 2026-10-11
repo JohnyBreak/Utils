@@ -3,21 +3,6 @@ using Common.Utils.Items.Runtime.Actions;
 
 namespace Common.Utils.Items.External
 {
-    public class Equipment
-    {
-        private IItem _current;
-        
-        public void Equip(IItem item)
-        {
-            _current = item;
-        }
-
-        public IItem GetCurrentWeapon()
-        {
-            return _current;
-        }
-    }
-
     public class WeaponProxy
     {
         private readonly Equipment _equipment;
@@ -43,5 +28,4 @@ namespace Common.Utils.Items.External
             _actionActionService.TryExecute<ReloadAction>(item);
         }
     }
-
 }

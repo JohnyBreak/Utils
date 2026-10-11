@@ -1,23 +1,36 @@
-using Common.Utils.Items.Runtime.States;
+using Common.Utils.BulletSystem.Runtime;
+using Common.Utils.Items.External;
+using UnityEngine;
 
 namespace Common.Utils.Items.Runtime.Components
 {
     public class ShootItemComponent : IUseComponent
     {
-        private readonly int _magSize;
-        public ShootItemComponent(int magSize)
+        private readonly GunData _gunData;
+        
+        public ShootItemComponent(GunData gunData)
         {
-            _magSize = magSize;
+            _gunData = gunData;
         }
 
-        public bool CanUse(IItemState state)
+        public bool CanUse()
         {
-            if (!(state is ShootItemState shootState))
-            {
-                return false;
-            }
+            return _gunData.CanShoot();
+        }
 
-            return shootState.AmoAmount > 0;
+        public void Shoot()
+        {
+            _gunData.Shoot();
+        }
+        
+        public BulletConfig GetBulletDef()
+        {
+            return _gunData.GetBulletInfo();
+        }
+        
+        public Transform GetShootPosition()
+        {
+            return _gunData.GetShootPosition();
         }
     }
 }

@@ -16,12 +16,16 @@ namespace Common.Utils.BulletSystem.Runtime
         private Vector3 _velocity;
         private float _damage;
 
-        public void Initialize(BulletConfig config, Vector3 shotPosition)
+        public void Initialize(
+            BulletConfig config, 
+            Vector3 shotPosition, 
+            Vector3 direction,
+            BulletView view)
         {
             _type = config.Type;
             _maxDistance = config.MaxDistance;
-            _view = config.View;
-            _velocity = config.Velocity;
+            _view = view;
+            _velocity = direction * config.Speed;
             _damage = config.Damage;
             
             _previousPosition = shotPosition;

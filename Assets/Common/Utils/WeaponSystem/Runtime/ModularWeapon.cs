@@ -1,3 +1,4 @@
+using System;
 using Common.Utils.BulletSystem.Runtime;
 using Common.Utils.WeaponSystem.Runtime.ReloadStrategies;
 using Common.Utils.WeaponSystem.Runtime.ShootStrategies;
@@ -30,8 +31,9 @@ namespace Common.Utils.WeaponSystem.Runtime
         
         public void TryShoot()
         {
-            var info = ShotInfo.SimpleShot(_view.GetShootPosition(), _config);
-            _shootStrategy?.Shoot(info);
+            throw new NotImplementedException();
+            //var info = ShotInfo.SimpleShot(_view.GetShootPosition(), _config);
+            //_shootStrategy?.Shoot(info);
         }
 
         public void TryReload()

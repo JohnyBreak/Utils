@@ -1,6 +1,5 @@
+using Common.Utils.BulletSystem.Runtime;
 using Common.Utils.Items.Runtime.Components;
-using Common.Utils.Items.Runtime.States;
-using UnityEngine;
 
 namespace Common.Utils.Items.Runtime.UseHandlers
 {
@@ -8,28 +7,36 @@ namespace Common.Utils.Items.Runtime.UseHandlers
     {
         public bool TryExecute(IItem item, IItemComponent component)
         {
-            if (!(component is ShootItemComponent shootItemComponent))
+            if (!(component is ReloadItemComponent reloadItemComponent))
             {
                 return false;
             }
 
-            if (!item.TryGetState<ShootItemComponent>(out var state))
+            if(!reloadItemComponent.CanUse())
+            {
+                return false;
+            }
+            
+            
+            BulletConfig def = reloadItemComponent.GetBulletInfo();
+            int amount = reloadItemComponent.GetMagSize();
+            int realAmount = RequestBullets(def, amount);
+            
+            if (realAmount < 1)
             {
                 return false;
             }
 
-            if (!(state is ShootItemState shootState))
-            {
-                return false;
-            }
-
-            if(!shootItemComponent.CanUse(shootState))
-            {
-                return false;
-            }
-            shootState.AmoAmount--;
-            Debug.LogError(shootState.AmoAmount);
+            reloadItemComponent.Reload(realAmount);
+            
             return true;
+        }
+
+        private int RequestBullets(BulletConfig def, int amount)
+        {
+            //у инвентаря запросить кол-во патронов определенного типа,
+            //инвентарь вернет либо сколько надо, либо сколько есть
+            return amount;
         }
     }
 }

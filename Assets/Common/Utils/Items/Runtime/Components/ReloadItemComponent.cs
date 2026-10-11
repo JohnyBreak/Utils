@@ -1,23 +1,35 @@
-using Common.Utils.Items.Runtime.States;
+using Common.Utils.BulletSystem.Runtime;
+using Common.Utils.Items.External;
 
 namespace Common.Utils.Items.Runtime.Components
 {
     public class ReloadItemComponent: IUseComponent
     {
-        private readonly int _magSize;
-        public ReloadItemComponent(int magSize)
+        private readonly GunData _gunData;
+        
+        public ReloadItemComponent(GunData gunData)
         {
-            _magSize = magSize;
+            _gunData = gunData;
         }
 
-        public bool CanUse(IItemState state)
+        public bool CanUse()
         {
-            if (!(state is ShootItemState shootState))
-            {
-                return false;
-            }
+            return _gunData.CanReload();
+        }
+        
+        public void Reload(int amount)
+        {
+            _gunData.Reload( amount);
+        }
 
-            return shootState.AmoAmount < _magSize;
+        public int GetMagSize()
+        {
+            return _gunData.GetMagSize();
+        }
+
+        public BulletConfig GetBulletInfo()
+        {
+            return _gunData.GetBulletInfo();
         }
     }
 }
