@@ -9,6 +9,11 @@ namespace Common.Utils.BulletSystem.Runtime
 {
     public class BulletsBehaviour : IBulletsBehaviour
     {
+        // в компонентных итемах в компоненте shootComponent использовать shootService,
+        // в который передать сам итем, сервис сам возьмет что ему надо,
+        // создаст shotInfo и передаст в bulletSystem
+        
+        
         // общая WeaponSystem вокруг BulletSystem
 
         // снаружи создать пулю и передать в BulletSystem
