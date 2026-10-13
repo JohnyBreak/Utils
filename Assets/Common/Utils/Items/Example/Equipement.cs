@@ -1,6 +1,6 @@
 using Common.Utils.Items.Runtime;
 
-namespace Common.Utils.Items.Test
+namespace Common.Utils.Items.Example
 {
     public class Equipment
     {

@@ -49,7 +49,7 @@ namespace Common.Utils.Items.Test
             List <IItemComponent> components = new()
             {
                 new ShootItemComponent(gunData),
-                new ReloadItemComponent(gunData)
+                new ReloadComponent(gunData)
             };
             
             Item pistol = new Item(components);
@@ -58,7 +58,7 @@ namespace Common.Utils.Items.Test
                 new Dictionary<(Type, Type), IActionHandler>()
             {
                 {(typeof(UseAction), typeof(ShootItemComponent)), new ShootHandler(shootAdapter)},
-                {(typeof(ReloadAction), typeof(ReloadItemComponent)), new ReloadHandler()}
+                {(typeof(ReloadAction), typeof(ReloadComponent)), new ReloadHandler()}
             });
 
             var equipment = new Equipment();

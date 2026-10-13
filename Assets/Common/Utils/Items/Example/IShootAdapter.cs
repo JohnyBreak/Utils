@@ -1,7 +1,7 @@
 using Common.Utils.BulletSystem.Runtime;
 using UnityEngine;
 
-namespace Common.Utils.Items.Test
+namespace Common.Utils.Items.Example
 {
     public interface IShootAdapter
     {

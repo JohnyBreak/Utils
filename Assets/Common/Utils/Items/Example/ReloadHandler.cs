@@ -9,7 +9,7 @@ namespace Common.Utils.Items.Test
     {
         public bool TryExecute(IItem item, IItemComponent component)
         {
-            if (!(component is ReloadItemComponent reloadItemComponent))
+            if (!(component is ReloadComponent reloadItemComponent))
             {
                 return false;
             }

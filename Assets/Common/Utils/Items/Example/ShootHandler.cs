@@ -15,7 +15,7 @@ namespace Common.Utils.Items.Test
 
         public bool TryExecute(IItem item, IItemComponent component)
         {
-            if (!(component is ShootItemComponent shootItemComponent))
+            if (!(component is ShootComponent shootItemComponent))
             {
                 return false;
             }

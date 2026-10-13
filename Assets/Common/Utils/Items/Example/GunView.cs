@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Common.Utils.Items.Test
+namespace Common.Utils.Items.Example
 {
     public class GunView : MonoBehaviour
     {
