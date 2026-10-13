@@ -2,7 +2,7 @@ using Common.Utils.BulletSystem.Runtime;
 using Common.Utils.WeaponSystem.Runtime;
 using UnityEngine;
 
-namespace Common.Utils.Items.External
+namespace Common.Utils.Items.Test
 {
     public class ShootAdapter : IShootAdapter
     {

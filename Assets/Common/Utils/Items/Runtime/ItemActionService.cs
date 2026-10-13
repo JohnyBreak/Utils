@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
+using Common.Utils.Items.Runtime.ActionHandlers;
 using Common.Utils.Items.Runtime.Actions;
-using Common.Utils.Items.Runtime.UseHandlers;
 
 namespace Common.Utils.Items.Runtime
 {
-    public class ItemActionActionService : IItemActionService
+    public class ItemActionService : IItemActionService
     {
         private Dictionary<(Type, Type), IActionHandler> _handlers = new Dictionary<(Type, Type), IActionHandler>();
         
-        public ItemActionActionService(Dictionary<(Type, Type), IActionHandler> handlers)
+        public ItemActionService(Dictionary<(Type, Type), IActionHandler> handlers)
         {
             _handlers = handlers;
         }

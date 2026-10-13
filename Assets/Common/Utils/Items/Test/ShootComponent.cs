@@ -1,8 +1,8 @@
 using Common.Utils.BulletSystem.Runtime;
-using Common.Utils.Items.External;
+using Common.Utils.Items.Runtime.Components;
 using UnityEngine;
 
-namespace Common.Utils.Items.Runtime.Components
+namespace Common.Utils.Items.Test
 {
     public class ShootItemComponent : IUseComponent
     {

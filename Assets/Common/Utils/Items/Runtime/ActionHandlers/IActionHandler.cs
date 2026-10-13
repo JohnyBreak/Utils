@@ -1,6 +1,6 @@
 using Common.Utils.Items.Runtime.Components;
 
-namespace Common.Utils.Items.Runtime.UseHandlers
+namespace Common.Utils.Items.Runtime.ActionHandlers
 {
     public interface IActionHandler
     {

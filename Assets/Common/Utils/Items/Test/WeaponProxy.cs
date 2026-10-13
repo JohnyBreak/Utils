@@ -1,31 +1,31 @@
 using Common.Utils.Items.Runtime;
 using Common.Utils.Items.Runtime.Actions;
 
-namespace Common.Utils.Items.External
+namespace Common.Utils.Items.Test
 {
     public class WeaponProxy
     {
         private readonly Equipment _equipment;
-        private readonly ItemActionActionService _actionActionService;
+        private readonly ItemActionService _actionService;
         
         public WeaponProxy(
             Equipment equipment, 
-            ItemActionActionService actionActionService)
+            ItemActionService actionService)
         {
-            _actionActionService = actionActionService;
+            _actionService = actionService;
             _equipment = equipment;
         }
 
         public void Use()
         {
             var item = _equipment.GetCurrentWeapon();
-            _actionActionService.TryExecute<UseAction>(item);
+            _actionService.TryExecute<UseAction>(item);
         }
 
         public void Reload()
         {
             var item = _equipment.GetCurrentWeapon();
-            _actionActionService.TryExecute<ReloadAction>(item);
+            _actionService.TryExecute<ReloadAction>(item);
         }
     }
 }

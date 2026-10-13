@@ -1,6 +1,6 @@
 using Common.Utils.Items.Runtime;
 
-namespace Common.Utils.Items.External
+namespace Common.Utils.Items.Test
 {
     public class Equipment
     {

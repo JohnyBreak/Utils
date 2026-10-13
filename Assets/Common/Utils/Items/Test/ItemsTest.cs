@@ -7,12 +7,12 @@ using Common.Utils.BulletSystem.Runtime.CollisionStrategies;
 using Common.Utils.BulletSystem.Runtime.DamageStrategies;
 using Common.Utils.BulletSystem.Runtime.MoveStrategies;
 using Common.Utils.Items.Runtime;
+using Common.Utils.Items.Runtime.ActionHandlers;
 using Common.Utils.Items.Runtime.Actions;
 using Common.Utils.Items.Runtime.Components;
-using Common.Utils.Items.Runtime.UseHandlers;
 using UnityEngine;
 
-namespace Common.Utils.Items.External
+namespace Common.Utils.Items.Test
 {
     public class ItemsTest : MonoBehaviour
     {
@@ -56,7 +56,7 @@ namespace Common.Utils.Items.External
             
             ItemInstance pistol = new ItemInstance(def);
 
-            ItemActionActionService actionActionService = new ItemActionActionService(
+            ItemActionService actionService = new ItemActionService(
                 new Dictionary<(Type, Type), IActionHandler>()
             {
                 {(typeof(UseAction), typeof(ShootItemComponent)), new ShootHandler(shootAdapter)},
@@ -66,7 +66,7 @@ namespace Common.Utils.Items.External
             var equipment = new Equipment();
             equipment.Equip(pistol);
 
-            _weaponProxy = new WeaponProxy(equipment, actionActionService);
+            _weaponProxy = new WeaponProxy(equipment, actionService);
         }
 
         private void Update()
