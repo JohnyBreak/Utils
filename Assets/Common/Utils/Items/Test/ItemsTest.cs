@@ -52,9 +52,7 @@ namespace Common.Utils.Items.Test
                 new ReloadItemComponent(gunData)
             };
             
-            ItemDefinition def = new ItemDefinition(components);
-            
-            ItemInstance pistol = new ItemInstance(def);
+            Item pistol = new Item(components);
 
             ItemActionService actionService = new ItemActionService(
                 new Dictionary<(Type, Type), IActionHandler>()

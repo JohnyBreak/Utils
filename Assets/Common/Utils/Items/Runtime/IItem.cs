@@ -7,6 +7,9 @@ namespace Common.Utils.Items.Runtime
     {
         bool HasComponent<T>() where T : class, IItemComponent;
         bool TryGetComponent<T>(out IItemComponent component) where T : class, IItemComponent;
-        public IReadOnlyList<IItemComponent> GetComponents();
+        IReadOnlyList<IItemComponent> GetComponents();
+
+        void AddComponent(IItemComponent component);
+        bool TryRemoveComponent(IItemComponent component);
     }
 }
