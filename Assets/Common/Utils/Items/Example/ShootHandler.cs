@@ -1,8 +1,10 @@
+using Common.Utils.BulletSystem.Runtime;
 using Common.Utils.Items.Runtime;
 using Common.Utils.Items.Runtime.ActionHandlers;
 using Common.Utils.Items.Runtime.Components;
+using UnityEngine;
 
-namespace Common.Utils.Items.Test
+namespace Common.Utils.Items.Example
 {
     public class ShootHandler : IActionHandler
     {
@@ -25,17 +27,32 @@ namespace Common.Utils.Items.Test
                 return false;
             }
 
-            var def = shootItemComponent.GetBulletDef();
-            var position = shootItemComponent.GetShootPosition();
+            var def = GetCurrentBulletDef();
+            var position = GetShootPosition();
 
             // TODO взять откуда-нибудь из aim сервиса куда персонаж целится
-            var direction = position.forward;
+            var direction = GetDirection();
             
             
-            _adapter.Shoot(def, position.position, direction);
+            _adapter.Shoot(def, position, direction);
             //мб надо тут проверить отработал ли адаптер, если да, то вызывать шут у компонента
             shootItemComponent.Shoot();
             return true;
+        }
+        
+        private BulletConfig GetCurrentBulletDef()
+        {
+            return new BulletConfig();
+        }
+
+        private Vector3 GetShootPosition()
+        {
+            return new Vector3();
+        }
+        
+        private Vector3 GetDirection()
+        {
+            return new Vector3();
         }
     }
 }

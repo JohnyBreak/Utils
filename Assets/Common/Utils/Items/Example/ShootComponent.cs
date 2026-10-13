@@ -1,36 +1,24 @@
-using Common.Utils.BulletSystem.Runtime;
 using Common.Utils.Items.Runtime.Components;
-using UnityEngine;
 
-namespace Common.Utils.Items.Test
+namespace Common.Utils.Items.Example
 {
-    public class ShootItemComponent : IUseComponent
+    public class ShootComponent : IUseComponent
     {
-        private readonly GunData _gunData;
-        
-        public ShootItemComponent(GunData gunData)
-        {
-            _gunData = gunData;
-        }
+        public int Amo;
+        public int MagSize;
 
         public bool CanUse()
         {
-            return _gunData.CanShoot();
+            return Amo > 0;
         }
 
         public void Shoot()
         {
-            _gunData.Shoot();
-        }
-        
-        public BulletConfig GetBulletDef()
-        {
-            return _gunData.GetBulletInfo();
-        }
-        
-        public Transform GetShootPosition()
-        {
-            return _gunData.GetShootPosition();
+            Amo--;
+            if (Amo < 0)
+            {
+                Amo = 0;                
+            }
         }
     }
 }

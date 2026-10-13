@@ -12,7 +12,7 @@ using Common.Utils.Items.Runtime.Actions;
 using Common.Utils.Items.Runtime.Components;
 using UnityEngine;
 
-namespace Common.Utils.Items.Test
+namespace Common.Utils.Items.Example
 {
     public class ItemsTest : MonoBehaviour
     {
@@ -48,8 +48,8 @@ namespace Common.Utils.Items.Test
             
             List <IItemComponent> components = new()
             {
-                new ShootItemComponent(gunData),
-                new ReloadComponent(gunData)
+                new ShootComponent(),
+                new ReloadComponent()
             };
             
             Item pistol = new Item(components);
@@ -57,7 +57,7 @@ namespace Common.Utils.Items.Test
             ItemActionService actionService = new ItemActionService(
                 new Dictionary<(Type, Type), IActionHandler>()
             {
-                {(typeof(UseAction), typeof(ShootItemComponent)), new ShootHandler(shootAdapter)},
+                {(typeof(UseAction), typeof(ShootComponent)), new ShootHandler(shootAdapter)},
                 {(typeof(ReloadAction), typeof(ReloadComponent)), new ReloadHandler()}
             });
 

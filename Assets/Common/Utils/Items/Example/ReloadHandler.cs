@@ -3,25 +3,26 @@ using Common.Utils.Items.Runtime;
 using Common.Utils.Items.Runtime.ActionHandlers;
 using Common.Utils.Items.Runtime.Components;
 
-namespace Common.Utils.Items.Test
+namespace Common.Utils.Items.Example
 {
     public class ReloadHandler : IActionHandler
     {
         public bool TryExecute(IItem item, IItemComponent component)
         {
-            if (!(component is ReloadComponent reloadItemComponent))
+            if (!(component is ReloadComponent))
+            {
+                return false;
+            }
+            
+            if (!item.TryGetComponent<ShootComponent>(out var outComponent))
             {
                 return false;
             }
 
-            if(!reloadItemComponent.CanUse())
-            {
-                return false;
-            }
-            
-            
-            BulletConfig def = reloadItemComponent.GetBulletInfo();
-            int amount = reloadItemComponent.GetMagSize();
+            ShootComponent shootComponent = (ShootComponent)outComponent;
+
+            BulletConfig def = GetCurrentBulletDef();
+            int amount = shootComponent.MagSize;
             int realAmount = RequestBullets(def, amount);
             
             if (realAmount < 1)
@@ -29,7 +30,7 @@ namespace Common.Utils.Items.Test
                 return false;
             }
 
-            reloadItemComponent.Reload(realAmount);
+            shootComponent.Amo = realAmount;
             
             return true;
         }
@@ -39,6 +40,11 @@ namespace Common.Utils.Items.Test
             //у инвентаря запросить кол-во патронов определенного типа,
             //инвентарь вернет либо сколько надо, либо сколько есть
             return amount;
+        }
+
+        private BulletConfig GetCurrentBulletDef()
+        {
+            return new BulletConfig();
         }
     }
 }
