@@ -17,7 +17,7 @@ namespace Common.Utils.Items.Example
 
         public bool TryExecute(IItem item, IItemComponent component)
         {
-            if (!(component is ShootComponent shootItemComponent))
+            if (!(component is AmmoComponent shootItemComponent))
             {
                 return false;
             }
@@ -36,7 +36,7 @@ namespace Common.Utils.Items.Example
             
             _adapter.Shoot(def, position, direction);
             //мб надо тут проверить отработал ли адаптер, если да, то вызывать шут у компонента
-            shootItemComponent.Shoot();
+            shootItemComponent.Consume();
             return true;
         }
         

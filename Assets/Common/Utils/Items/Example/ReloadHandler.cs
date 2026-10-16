@@ -14,15 +14,15 @@ namespace Common.Utils.Items.Example
                 return false;
             }
             
-            if (!item.TryGetComponent<ShootComponent>(out var outComponent))
+            if (!item.TryGetComponent<AmmoComponent>(out var outComponent))
             {
                 return false;
             }
 
-            ShootComponent shootComponent = (ShootComponent)outComponent;
+            AmmoComponent ammoComponent = (AmmoComponent)outComponent;
 
             BulletConfig def = GetCurrentBulletDef();
-            int amount = shootComponent.MagSize;
+            int amount = ammoComponent.MagSize;
             int realAmount = RequestBullets(def, amount);
             
             if (realAmount < 1)
@@ -30,7 +30,7 @@ namespace Common.Utils.Items.Example
                 return false;
             }
 
-            shootComponent.Amo = realAmount;
+            ammoComponent.Ammo = realAmount;
             
             return true;
         }

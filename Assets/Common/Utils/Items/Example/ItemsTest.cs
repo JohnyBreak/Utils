@@ -48,7 +48,7 @@ namespace Common.Utils.Items.Example
             
             List <IItemComponent> components = new()
             {
-                new ShootComponent(),
+                new AmmoComponent(),
                 new ReloadComponent()
             };
             
@@ -57,7 +57,7 @@ namespace Common.Utils.Items.Example
             ItemActionService actionService = new ItemActionService(
                 new Dictionary<(Type, Type), IActionHandler>()
             {
-                {(typeof(UseAction), typeof(ShootComponent)), new ShootHandler(shootAdapter)},
+                {(typeof(UseAction), typeof(AmmoComponent)), new ShootHandler(shootAdapter)},
                 {(typeof(ReloadAction), typeof(ReloadComponent)), new ReloadHandler()}
             });
 

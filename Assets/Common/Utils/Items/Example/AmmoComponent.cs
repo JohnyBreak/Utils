@@ -2,22 +2,22 @@ using Common.Utils.Items.Runtime.Components;
 
 namespace Common.Utils.Items.Example
 {
-    public class ShootComponent : IUseComponent
+    public class AmmoComponent : IUseComponent
     {
-        public int Amo;
+        public int Ammo;
         public int MagSize;
 
         public bool CanUse()
         {
-            return Amo > 0;
+            return Ammo > 0;
         }
 
-        public void Shoot()
+        public void Consume()
         {
-            Amo--;
-            if (Amo < 0)
+            Ammo--;
+            if (Ammo < 0)
             {
-                Amo = 0;                
+                Ammo = 0;                
             }
         }
     }

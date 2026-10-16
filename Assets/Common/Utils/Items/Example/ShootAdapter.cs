@@ -15,7 +15,7 @@ namespace Common.Utils.Items.Example
 
         public void Shoot(BulletConfig def, Vector3 position, Vector3 Direction)
         {
-            _system.HandleShot(ShotInfo.SimpleShot(position,Direction, def));
+            _system.HandleBullet(BulletInfo.SimpleShot(position,Direction, def));
         }
     }
 }
