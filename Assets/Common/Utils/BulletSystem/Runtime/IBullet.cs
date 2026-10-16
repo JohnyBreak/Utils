@@ -1,5 +1,4 @@
 using Common.Utils.BulletSystem.External;
-using Common.Utils.Damageable;
 using UnityEngine;
 
 namespace Common.Utils.BulletSystem.Runtime
@@ -20,6 +19,6 @@ namespace Common.Utils.BulletSystem.Runtime
         void Expire();
         bool IsExpired();
         void AddTraveledDistance(float displacement);
-        Damage GetDamage();
+        float GetDamage();
     }
 }

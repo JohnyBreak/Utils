@@ -1,5 +1,4 @@
 using Common.Utils.BulletSystem.Runtime.BulletProvider;
-using Common.Utils.WeaponSystem.Runtime;
 
 namespace Common.Utils.BulletSystem.Runtime
 {
@@ -16,9 +15,12 @@ namespace Common.Utils.BulletSystem.Runtime
             _bulletsBehaviour = bulletsBehaviour;
         }
 
-        public void HandleShot(ShotInfo info)
+        public void HandleBullet(BulletInfo info)
         {
-            var bullet = _bulletProvider.Get(info.Config, info.ShotPosition, info.Direction);
+            var bullet = _bulletProvider.Get(
+                info.Config,
+                info.ShotPosition,
+                info.Direction);
             _bulletsBehaviour.RegisterBullet(bullet);
         }
         

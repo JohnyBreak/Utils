@@ -1,5 +1,4 @@
 using Common.Utils.BulletSystem.External;
-using Common.Utils.Damageable;
 using UnityEngine;
 
 namespace Common.Utils.BulletSystem.Runtime
@@ -99,9 +98,9 @@ namespace Common.Utils.BulletSystem.Runtime
             _traveledDistance += displacement;
         }
 
-        public Damage GetDamage()
+        public float GetDamage()
         {
-            return new Damage(_damage);
+            return _damage;
         }
     }
 }
