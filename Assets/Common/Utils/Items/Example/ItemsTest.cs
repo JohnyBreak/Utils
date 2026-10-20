@@ -21,7 +21,7 @@ namespace Common.Utils.Items.Example
         
         private WeaponProxy _weaponProxy;
         private IBulletSystem _bulletSystem;
-        private IBulletsBehaviour _bulletsBehaviour;
+        private IBulletBehaviour _bulletBehaviour;
         
         private void Start()
         {
@@ -30,9 +30,9 @@ namespace Common.Utils.Items.Example
                 _gunView,
                 new BulletConfig(BulletType.Simple, 9, 3f, _bulletView, 15));
             
-            IBulletProvider provider = new BulletProvider();
+            IBulletProvider provider = new BulletProvider(Get, Release);
             
-            _bulletsBehaviour = new BulletsBehaviour(
+            _bulletBehaviour = new BulletBehaviour(
                 new SimpleBulletMoveStrategy(), 
                 new LineCastStrategy(),
                 new SimpleDamageStrategy(),
@@ -41,7 +41,7 @@ namespace Common.Utils.Items.Example
             
             _bulletSystem = new BulletSystem.Runtime.BulletSystem(
                 provider,
-                _bulletsBehaviour);
+                _bulletBehaviour);
             
             IShootAdapter shootAdapter = new ShootAdapter(
                 _bulletSystem);
@@ -90,6 +90,25 @@ namespace Common.Utils.Items.Example
         private void Shoot()
         {
             _weaponProxy.Use();
+        }
+        
+        private IBullet Get(BulletSpawnInfo spawnInfo)
+        {
+            
+            var bullet = new Bullet();
+            var newBulletView = Instantiate(spawnInfo.Config.View, spawnInfo.SpawnPosition, Quaternion.identity);
+            newBulletView.transform.forward = spawnInfo.Direction;
+            
+            bullet.Initialize(spawnInfo, 
+                newBulletView);
+            
+            return bullet;
+        }
+
+        private void Release(IBullet bullet)
+        {
+            Destroy(bullet.GetView().gameObject);
+            bullet.Expire();
         }
     }
 }

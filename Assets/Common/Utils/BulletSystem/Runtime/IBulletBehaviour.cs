@@ -1,6 +1,6 @@
 namespace Common.Utils.BulletSystem.Runtime
 {
-    public interface IBulletsBehaviour
+    public interface IBulletBehaviour
     {
         void RegisterBullet(IBullet bullet);
         void Update(float deltaTime);

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Common.Utils.BulletSystem.Runtime
 {
-    public class BulletsBehaviour : IBulletsBehaviour
+    public class BulletBehaviour : IBulletBehaviour
     {
         // в компонентных итемах в компоненте shootComponent использовать shootService,
         // в который передать сам итем, сервис сам возьмет что ему надо,
@@ -42,9 +42,9 @@ namespace Common.Utils.BulletSystem.Runtime
         private readonly IBulletMoveStrategy _moveStrategy;
         private readonly IBulletCollisionStrategy _collisionStrategy;
         private readonly IBulletDamageDeliveryStrategy _damageStrategy;
-        private readonly Action<IBullet> _releaseBullet;
+        private readonly Action<IBullet> _releaseBullet;// вынести в стратегию ?
 
-        public BulletsBehaviour(
+        public BulletBehaviour(
             IBulletMoveStrategy moveStrategy,
             IBulletCollisionStrategy collisionStrategy,
             IBulletDamageDeliveryStrategy damageStrategy,
@@ -73,7 +73,7 @@ namespace Common.Utils.BulletSystem.Runtime
 
                 _damageStrategy.DeliverDamage(hits, bullet);
 
-                if (bullet.IsExpired())
+                if (bullet.IsExpired())// вынести в стратегию ?
                 {
                     _activeBullets.RemoveAt(i);
                     _releaseBullet?.Invoke(bullet);

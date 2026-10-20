@@ -14,12 +14,14 @@ namespace Common.Utils.WeaponSystem.Runtime
 
         public void OnShot(ShotInfo info)
         {
-            BulletInfo bulletInfo = BulletInfo.ManyBulletShot(
-                info.ShotPosition,
-                info.Direction,
-                info.Config,
-                info.BulletAmount);
-            _bulletSystem.HandleBullet(bulletInfo);
+            for (int i = 0; i < info.BulletAmount; i++)
+            {
+                BulletSpawnInfo bulletSpawnInfo = new BulletSpawnInfo(
+                    info.ShotPosition,
+                    info.Direction,
+                    info.Config);
+                _bulletSystem.HandleBullet(bulletSpawnInfo);
+            }
         }
     }
 }

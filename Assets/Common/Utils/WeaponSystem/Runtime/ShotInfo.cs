@@ -21,7 +21,7 @@ namespace Common.Utils.WeaponSystem.Runtime
                 Direction = direction,
                 Config = config,
                 BulletAmount = 1
-            }; 
+            };
         }
         
         public static ShotInfo ManyBulletShot(
@@ -36,7 +36,7 @@ namespace Common.Utils.WeaponSystem.Runtime
                 Direction = direction,
                 Config = config,
                 BulletAmount = bulletAmount
-            }; 
+            };
         }
     }
 }

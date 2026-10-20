@@ -5,28 +5,25 @@ namespace Common.Utils.BulletSystem.Runtime
     public class BulletSystem : IBulletSystem
     {
         private readonly IBulletProvider _bulletProvider;
-        private readonly IBulletsBehaviour _bulletsBehaviour;
+        private readonly IBulletBehaviour _bulletBehaviour;
 
         public BulletSystem(
             IBulletProvider bulletProvider,
-            IBulletsBehaviour bulletsBehaviour)
+            IBulletBehaviour bulletBehaviour)
         {
             _bulletProvider = bulletProvider;
-            _bulletsBehaviour = bulletsBehaviour;
+            _bulletBehaviour = bulletBehaviour;
         }
 
-        public void HandleBullet(BulletInfo info)
+        public void HandleBullet(BulletSpawnInfo spawnInfo)
         {
-            var bullet = _bulletProvider.Get(
-                info.Config,
-                info.ShotPosition,
-                info.Direction);
-            _bulletsBehaviour.RegisterBullet(bullet);
+            var bullet = _bulletProvider.Get(spawnInfo);
+            _bulletBehaviour.RegisterBullet(bullet);
         }
         
         public void Update(float deltaTime)
         {
-            _bulletsBehaviour.Update(deltaTime);
+            _bulletBehaviour.Update(deltaTime);
         }
     }
 }

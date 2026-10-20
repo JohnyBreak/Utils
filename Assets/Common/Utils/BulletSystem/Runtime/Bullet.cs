@@ -15,20 +15,17 @@ namespace Common.Utils.BulletSystem.Runtime
         private Vector3 _velocity;
         private float _damage;
 
-        public void Initialize(
-            BulletConfig config, 
-            Vector3 shotPosition, 
-            Vector3 direction,
+        public void Initialize(BulletSpawnInfo spawnInfo,
             BulletView view)
         {
-            _type = config.Type;
-            _maxDistance = config.MaxDistance;
+            _type = spawnInfo.Config.Type;
+            _maxDistance = spawnInfo.Config.MaxDistance;
             _view = view;
-            _velocity = direction * config.Speed;
-            _damage = config.Damage;
+            _velocity = spawnInfo.Direction * spawnInfo.Config.Speed;
+            _damage = spawnInfo.Config.Damage;
             
-            _previousPosition = shotPosition;
-            _currentPosition = shotPosition;
+            _previousPosition = spawnInfo.SpawnPosition;
+            _currentPosition = spawnInfo.SpawnPosition;
             Reset();
         }
 

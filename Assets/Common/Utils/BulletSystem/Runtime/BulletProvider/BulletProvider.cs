@@ -1,31 +1,28 @@
-using UnityEngine;
+using System;
 
 namespace Common.Utils.BulletSystem.Runtime.BulletProvider
 {
     public class BulletProvider : IBulletProvider
     {
-        public IBullet Get(
-            BulletConfig config, 
-            Vector3 shotPosition, 
-            Vector3 direction)
+        private readonly Func<BulletSpawnInfo, IBullet> _get;
+        private readonly Action<IBullet> _release;
+
+        public BulletProvider(
+            Func<BulletSpawnInfo, IBullet> get,
+            Action<IBullet> release)
         {
-            var bullet = new Bullet();
-            var newBulletView = Object.Instantiate(config.View, shotPosition, Quaternion.identity);
-            newBulletView.transform.forward = direction;
-            
-            bullet.Initialize(
-                config, 
-                shotPosition, 
-                direction, 
-                newBulletView);
-            
-            return bullet;
+            _get = get;
+            _release = release;
+        }
+
+        public IBullet Get(BulletSpawnInfo spawnInfo)
+        {
+            return _get?.Invoke(spawnInfo);
         }
 
         public void Release(IBullet bullet)
         {
-            Object.Destroy(bullet.GetView().gameObject);
-            bullet.Expire();
+            _release?.Invoke(bullet);
         }
     }
 }
