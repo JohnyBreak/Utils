@@ -6,7 +6,7 @@ namespace Common.Utils.WeaponSystem.Runtime
     {
         private readonly IBulletSystem _bulletSystem; 
 
-        private BulletShootAdapter(
+        public BulletShootAdapter(
             IBulletSystem bulletSystem)
         {
             _bulletSystem = bulletSystem;

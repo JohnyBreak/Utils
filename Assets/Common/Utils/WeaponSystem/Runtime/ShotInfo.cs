@@ -10,7 +10,7 @@ namespace Common.Utils.WeaponSystem.Runtime
         public BulletConfig Config;
         public int BulletAmount;
 
-        public static ShotInfo SimpleShot(
+        public static ShotInfo SingleShot(
             Vector3 shotPosition,
             Vector3 direction,
             BulletConfig config)

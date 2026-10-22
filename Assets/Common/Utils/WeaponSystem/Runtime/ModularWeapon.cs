@@ -1,5 +1,5 @@
-using System;
-using Common.Utils.BulletSystem.Runtime;
+using Common.Utils.WeaponSystem.Runtime.Ammo;
+using Common.Utils.WeaponSystem.Runtime.Magazine;
 using Common.Utils.WeaponSystem.Runtime.ReloadStrategies;
 using Common.Utils.WeaponSystem.Runtime.ShootStrategies;
 
@@ -10,35 +10,35 @@ namespace Common.Utils.WeaponSystem.Runtime
         private readonly IShootStrategy _shootStrategy;
         private readonly IReloadStrategy _reloadStrategy;
         private readonly IWeaponView _view;
-        private BulletConfig _config;
+        private IMagazine _magazine;
         
         public ModularWeapon(
             IShootStrategy shootStrategy,
             IReloadStrategy reloadStrategy,
-            IWeaponView view,
-            BulletConfig defaultConfig)
+            IMagazine magazine,
+            IWeaponView view)
         {
             _shootStrategy = shootStrategy;
             _reloadStrategy = reloadStrategy;
+            _magazine = magazine;
             _view = view;
-            _config = defaultConfig;
-        }
-
-        public void SetBulletConfig(BulletConfig config)
-        {
-            _config = config;
         }
         
-        public void TryShoot()
+        public void TryUse()
         {
-            throw new NotImplementedException();
-            //var info = ShotInfo.SimpleShot(_view.GetShootPosition(), _config);
-            //_shootStrategy?.Shoot(info);
+            if (!_magazine.CanUse())
+            {
+                return;
+            }
+            
+            _shootStrategy?.Shoot(
+                _view.GetShootPosition(),
+                _magazine);
         }
 
         public void TryReload()
         {
-            _reloadStrategy?.Reload();
+            _reloadStrategy?.Reload(_magazine);
         }
     }
 }

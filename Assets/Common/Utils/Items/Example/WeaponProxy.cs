@@ -5,11 +5,11 @@ namespace Common.Utils.Items.Example
 {
     public class WeaponProxy
     {
-        private readonly Equipment _equipment;
+        private readonly Equipment.Runtime.Equipment _equipment;
         private readonly ItemActionService _actionService;
         
         public WeaponProxy(
-            Equipment equipment, 
+            Equipment.Runtime.Equipment equipment, 
             ItemActionService actionService)
         {
             _actionService = actionService;

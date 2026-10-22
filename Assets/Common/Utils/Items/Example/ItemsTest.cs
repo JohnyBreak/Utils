@@ -10,13 +10,14 @@ using Common.Utils.Items.Runtime;
 using Common.Utils.Items.Runtime.ActionHandlers;
 using Common.Utils.Items.Runtime.Actions;
 using Common.Utils.Items.Runtime.Components;
+using Common.Utils.WeaponSystem.Example;
 using UnityEngine;
 
 namespace Common.Utils.Items.Example
 {
     public class ItemsTest : MonoBehaviour
     {
-        [SerializeField] private GunView _gunView;
+        [SerializeField] private WeaponView weaponView;
         [SerializeField] private BulletView _bulletView;
         
         private WeaponProxy _weaponProxy;
@@ -25,19 +26,18 @@ namespace Common.Utils.Items.Example
         
         private void Start()
         {
-            var gunData = new GunData(
-                10,
-                _gunView,
-                new BulletConfig(BulletType.Simple, 9, 3f, _bulletView, 15));
+            var viewsMap = new Dictionary<BulletType, BulletView>()
+            {
+                { BulletType.Simple, _bulletView }
+            };
             
-            IBulletProvider provider = new BulletProvider();
+            IBulletProvider provider = new BulletProvider(viewsMap);
             
             _bulletsBehaviour = new BulletsBehaviour(
                 new SimpleBulletMoveStrategy(), 
                 new LineCastStrategy(),
                 new SimpleDamageStrategy(),
                 provider.Release);
-
             
             _bulletSystem = new BulletSystem.Runtime.BulletSystem(
                 provider,
@@ -61,8 +61,8 @@ namespace Common.Utils.Items.Example
                 {(typeof(ReloadAction), typeof(ReloadComponent)), new ReloadHandler()}
             });
 
-            var equipment = new Equipment();
-            equipment.Equip(pistol);
+            var equipment = new Equipment.Runtime.Equipment();
+            equipment.EquipWeapon(pistol);
 
             _weaponProxy = new WeaponProxy(equipment, actionService);
         }
