@@ -27,7 +27,7 @@ namespace Common.Utils.WeaponSystem.Runtime.ShootStrategies
             // создать recoilService чтобы корректировать разброс
             // при смене оружия разброс сбрасывается
             
-            // direction взять из AimController
+            // сделать показатель скорострельности, чтобы был промежуток между выстрелами, чтобы не закликать моментально
             if (!magazine.CanUse())
             {
                 return;
