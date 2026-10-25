@@ -165,6 +165,7 @@ MonoBehaviour:
   _weaponView: {fileID: 2059831190}
   _bulletView: {fileID: 1207056095}
   _cameraT: {fileID: 1754301752}
+  _fireRate: 0.1
 --- !u!4 &21585555
 Transform:
   m_ObjectHideFlags: 0

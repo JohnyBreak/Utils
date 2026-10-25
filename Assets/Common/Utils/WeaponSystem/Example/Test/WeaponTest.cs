@@ -62,6 +62,7 @@ namespace Common.Utils.WeaponSystem.Example.Test
         [SerializeField] private WeaponView _weaponView;
         [SerializeField] private BulletView _bulletView;
         [SerializeField] private Transform _cameraT;
+        [SerializeField] private float _fireRate = 0.3f;
         
         private WeaponProxy _weaponProxy;
         private IBulletSystem _bulletSystem;
@@ -107,7 +108,7 @@ namespace Common.Utils.WeaponSystem.Example.Test
                 10);
             
             IWeapon pistol = new ModularWeapon(
-                new SingleBulletShootStrategy(shootAdapter, aimDirection),
+                new SingleBulletShootStrategy(shootAdapter, aimDirection, _fireRate),
                 reload,
                 magazine,
                 _weaponView);
