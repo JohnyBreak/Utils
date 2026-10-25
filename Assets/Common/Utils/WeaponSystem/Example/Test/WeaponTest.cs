@@ -24,6 +24,12 @@ using IShootAdapter = Common.Utils.WeaponSystem.Runtime.IShootAdapter;
 
 namespace Common.Utils.WeaponSystem.Example.Test
 {
+    // у перезарядки должно быть время
+    // во время перезарядки нельзя стрелять
+    // перезарядку магазина нельзя прервать
+    // но дробовики и ружья с перезарядкой по патрону можно прервать,
+    // обычно ЛКМ, но можно сделать повторным нажатием на кнопку перезарядки
+    
     // нужны разные атакеры, на сингл клик и холд
     // туда же можно отправить гранаты, сперва прицелился, потом бросил
     // или зажал, высчиталась сила броска и бросок происходит на отпускании кнопки
@@ -115,12 +121,20 @@ namespace Common.Utils.WeaponSystem.Example.Test
                 
             var attackersMap = new Dictionary<Type, IAttacker>()
             {
-                {typeof(SingleClickAttackComponent), new ClickAttacker(_inputAdapter, pistol)}
+                {typeof(SingleClickAttackComponent), new ClickAttacker(_inputAdapter, pistol)},
+                {typeof(RepeatableAttackComponent), new RepeatableAttacker(
+                    _inputAdapter, 
+                    pistol,
+                    0.1f,
+                    _bulletView)}
             };
+
+            var clickReloader = new ClickReloader(_inputAdapter, pistol);
             
             var reloadersMap = new Dictionary<Type, IReloader>()
             {
-                {typeof(SingleClickAttackComponent), new ClickReloader(_inputAdapter, pistol)}
+                {typeof(SingleClickAttackComponent), clickReloader},
+                {typeof(RepeatableAttackComponent), clickReloader},
             };
             
             var listeners = new List<IWeaponChangeListener>()
@@ -150,7 +164,7 @@ namespace Common.Utils.WeaponSystem.Example.Test
                 Item item = new Item(
                     new List<IItemComponent>()
                     {
-                        new HoldAttackComponent()
+                        new RepeatableAttackComponent()
                     });
                 
                 _equipment.EquipWeapon(item);

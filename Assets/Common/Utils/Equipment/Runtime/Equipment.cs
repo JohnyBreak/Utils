@@ -5,14 +5,14 @@ namespace Common.Utils.Equipment.Runtime
 {
     public class Equipment : IWeaponEquipment
     {
+        public event Action<Item> WeaponEquippedEvent;
+        
         private IItem _currentWeapon;
 
         public IItem GetCurrentWeapon()
         {
             return _currentWeapon;
         }
-
-        public event Action<Item> WeaponEquippedEvent;
         
         public void EquipWeapon(Item weapon)
         {

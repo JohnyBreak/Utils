@@ -1,4 +1,3 @@
-using Common.Utils.WeaponSystem.Runtime.Ammo;
 using Common.Utils.WeaponSystem.Runtime.Magazine;
 using Common.Utils.WeaponSystem.Runtime.ReloadStrategies;
 using Common.Utils.WeaponSystem.Runtime.ShootStrategies;
@@ -23,7 +22,12 @@ namespace Common.Utils.WeaponSystem.Runtime
             _magazine = magazine;
             _view = view;
         }
-        
+
+        public bool CanUse()
+        {
+            return _magazine.CanUse();
+        }
+
         public void TryUse()
         {
             if (!_magazine.CanUse())
