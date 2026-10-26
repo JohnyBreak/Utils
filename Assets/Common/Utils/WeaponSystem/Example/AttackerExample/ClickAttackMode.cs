@@ -1,22 +1,22 @@
 using System;
-using Common.Utils.WeaponSystem.Runtime;
+using Common.Utils.Equipment.Runtime;
 
 namespace Common.Utils.WeaponSystem.Example.AttackerExample
 {
-    public class ClickAttacker : IAttacker, IDisposable
+    public class ClickAttackMode : IAttackMode, IDisposable
     {
         private readonly IInputAdapter _inputAdapter;
-        private readonly IWeapon _weapon;
+        private readonly IWeaponEquipment _weaponEquipment;
 
-        public ClickAttacker(IInputAdapter inputAdapter, IWeapon weapon)
+        public ClickAttackMode(IInputAdapter inputAdapter, IWeaponEquipment equipment)
         {
             _inputAdapter = inputAdapter;
-            _weapon = weapon;
+            _weaponEquipment = equipment;
         }
         
         private void Attack()
         {
-            _weapon.TryUse();
+            //_weaponEquipment.GetCurrentWeapon();
         }
 
         public void Dispose()

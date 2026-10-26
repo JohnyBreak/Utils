@@ -1,6 +1,6 @@
 namespace Common.Utils.WeaponSystem.Example.AttackerExample
 {
-    public interface IAttacker
+    public interface IAttackMode
     {
         void Activate();
         void Deactivate();

@@ -1,6 +1,6 @@
 namespace Common.Utils.WeaponSystem.Example.ReloadExample
 {
-    public interface IReloader
+    public interface IReloadMode
     {
         void Activate();
         void Deactivate();

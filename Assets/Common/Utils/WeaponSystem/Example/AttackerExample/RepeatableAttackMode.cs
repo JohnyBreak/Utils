@@ -1,26 +1,27 @@
 using System;
 using System.Collections;
+using Common.Utils.Equipment.Runtime;
 using Common.Utils.WeaponSystem.Runtime;
 using UnityEngine;
 
 namespace Common.Utils.WeaponSystem.Example.AttackerExample
 {
-    public class RepeatableAttacker: IAttacker, IDisposable
+    public class RepeatableAttackMode: IAttackMode, IDisposable
     {
         private readonly IInputAdapter _inputAdapter;
-        private readonly IWeapon _weapon;
+        private readonly IWeaponEquipment _weaponEquipment;
         private readonly float _fireRate;
         private readonly MonoBehaviour _coroutineProvider;
         private Coroutine _coroutine;
         
-        public RepeatableAttacker(
+        public RepeatableAttackMode(
             IInputAdapter inputAdapter,
-            IWeapon weapon,
+            IWeaponEquipment equipment,
             float fireRate,
             MonoBehaviour coroutineProvider)
         {
             _inputAdapter = inputAdapter;
-            _weapon = weapon;
+            _weaponEquipment = equipment;
             _fireRate = fireRate;
             _coroutineProvider = coroutineProvider;
         }
@@ -35,17 +36,18 @@ namespace Common.Utils.WeaponSystem.Example.AttackerExample
 
         private IEnumerator ShootRoutine()
         {
-            while (true)
-            {
-                yield return new WaitForSeconds(_fireRate);
+            yield break;
+            //while (true)
+            //{
+            //    yield return new WaitForSeconds(_fireRate);
 
-                if (!_weapon.CanUse())
-                {
-                    yield break;
-                }
-                
-                _weapon.TryUse();
-            }
+            //    if (!_weapon.CanUse())
+            //    {
+            //        yield break;
+            //    }
+            //    
+            //    _weapon.TryUse();
+            //}
         }
 
         private void StopAttack()

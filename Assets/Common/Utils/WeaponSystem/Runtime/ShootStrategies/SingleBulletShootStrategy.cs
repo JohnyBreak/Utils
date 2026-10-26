@@ -1,5 +1,5 @@
-using Common.Utils.WeaponSystem.Example.Test.Pistol;
-using Common.Utils.WeaponSystem.Runtime.Magazine;
+using Common.Utils.Items.Runtime;
+using Common.Utils.WeaponSystem.Example.AttackComponents;
 using UnityEngine;
 
 namespace Common.Utils.WeaponSystem.Runtime.ShootStrategies
@@ -21,16 +21,17 @@ namespace Common.Utils.WeaponSystem.Runtime.ShootStrategies
             _fireRate = fireRate;
         }
 
-        public void Shoot(Vector3 shotPosition, IMagazine magazine)
+        public void Shoot(Vector3 shotPosition, IItem item)
         {
-            if (magazine is not BulletMagazine bulletMagazine)
+            if (!item.TryGetComponent<BulletMagazine>(out var magazineComponent))
             {
                 return;
             }
             // создать recoilService чтобы корректировать разброс
             // при смене оружия разброс сбрасывается
+            BulletMagazine magazine = (BulletMagazine)magazineComponent;
             
-            if (!magazine.CanUse())
+            if (!magazine.HasAmmo())
             {
                 return;
             }
@@ -43,7 +44,7 @@ namespace Common.Utils.WeaponSystem.Runtime.ShootStrategies
             ShotInfo shotInfo = ShotInfo.SingleShot(
                 shotPosition,
                 _aimDirection.GetDirection(),
-                bulletMagazine.GetConfig());
+                magazine.GetBulletConfig());
             
             _adapter.OnShot(shotInfo);
             

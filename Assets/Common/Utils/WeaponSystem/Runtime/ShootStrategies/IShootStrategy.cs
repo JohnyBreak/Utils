@@ -1,11 +1,10 @@
-using Common.Utils.WeaponSystem.Runtime.Ammo;
-using Common.Utils.WeaponSystem.Runtime.Magazine;
+using Common.Utils.Items.Runtime;
 using UnityEngine;
 
 namespace Common.Utils.WeaponSystem.Runtime.ShootStrategies
 {
     public interface IShootStrategy
     {
-        void Shoot(Vector3 shotPosition, IMagazine magazine);
+        void Shoot(Vector3 shotPosition, IItem item);
     }
 }

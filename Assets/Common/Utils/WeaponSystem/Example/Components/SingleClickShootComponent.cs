@@ -1,6 +1,6 @@
 namespace Common.Utils.WeaponSystem.Example.AttackComponents
 {
-    public class SingleClickAttackComponent : AttackTypeComponent
+    public class SingleClickShootComponent : ShootComponent
     {
         
     }

@@ -2,7 +2,7 @@ using Common.Utils.Items.Runtime.Components;
 
 namespace Common.Utils.WeaponSystem.Example.AttackComponents
 {
-    public class AttackTypeComponent : IItemComponent
+    public interface IWeaponComponent : IItemComponent
     {
         
     }

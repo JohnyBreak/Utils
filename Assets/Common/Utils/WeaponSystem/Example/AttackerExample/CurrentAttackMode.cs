@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Common.Utils.WeaponSystem.Example.AttackerExample
 {
-    public class Attacker : IWeaponChangeListener
+    public class CurrentAttackMode : IWeaponChangeListener
     {
-        private readonly Dictionary<Type, IAttacker> _map;
-        private IAttacker _current;
+        private readonly Dictionary<Type, IAttackMode> _map;
+        private IAttackMode _current;
         
-        public Attacker(Dictionary<Type, IAttacker> map)
+        public CurrentAttackMode(Dictionary<Type, IAttackMode> map)
         {
             _map = map;
         }

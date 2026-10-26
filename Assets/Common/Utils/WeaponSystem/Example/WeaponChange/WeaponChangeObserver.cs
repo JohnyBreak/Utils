@@ -12,7 +12,7 @@ namespace Common.Utils.WeaponSystem.Example.WeaponChange
     {
         private readonly IWeaponEquipment _equipment;
         private readonly List<IWeaponChangeListener> _listeners;
-        private readonly Attacker _attacker;
+        private readonly CurrentAttackMode _currentAttackMode;
         private readonly Reloader _reloader;
 
         public WeaponChangeObserver(
@@ -27,7 +27,7 @@ namespace Common.Utils.WeaponSystem.Example.WeaponChange
         
         private void OnWeaponChanged(Item weapon)
         {
-            if (!weapon.TryGetComponent<AttackTypeComponent>(out var component))
+            if (!weapon.TryGetComponent<ShootComponent>(out var component))
             {
                 return;
             }

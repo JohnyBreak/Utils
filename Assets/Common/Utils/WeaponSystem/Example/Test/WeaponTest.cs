@@ -108,38 +108,38 @@ namespace Common.Utils.WeaponSystem.Example.Test
             BulletConfig config = new BulletConfig(BulletType.Simple, 100, 15, 15);
             BulletAmmo ammo = new BulletAmmo(config, 10);
             
-            IMagazine magazine = new BulletMagazine(
-                new HashSet<BulletType>() { BulletType.Simple }, 
-                ammo,
-                10);
+            //IMagazine magazine = new BulletMagazine(
+            //    new HashSet<BulletType>() { BulletType.Simple }, 
+            //    ammo,
+            //    10);
             
-            IWeapon pistol = new ModularWeapon(
-                new SingleBulletShootStrategy(shootAdapter, aimDirection, _fireRate),
-                reload,
-                magazine,
-                _weaponView);
+            //IWeapon pistol = new ModularWeapon(
+            //    new SingleBulletShootStrategy(shootAdapter, aimDirection, _fireRate),
+            //    reload,
+            //    magazine,
+            //    _weaponView);
                 
-            var attackersMap = new Dictionary<Type, IAttacker>()
+            var attackersMap = new Dictionary<Type, IAttackMode>()
             {
-                {typeof(SingleClickAttackComponent), new ClickAttacker(_inputAdapter, pistol)},
-                {typeof(RepeatableAttackComponent), new RepeatableAttacker(
+                {typeof(SingleClickShootComponent), new ClickAttackMode(_inputAdapter, _equipment)},
+                {typeof(RepeatableShootComponent), new RepeatableAttackMode(
                     _inputAdapter, 
-                    pistol,
+                    _equipment,
                     0.1f,
                     _bulletView)}
             };
 
-            var clickReloader = new ClickReloader(_inputAdapter, pistol);
+            var clickReloader = new ClickReloadMode(_inputAdapter, _equipment);
             
-            var reloadersMap = new Dictionary<Type, IReloader>()
+            var reloadersMap = new Dictionary<Type, IReloadMode>()
             {
-                {typeof(SingleClickAttackComponent), clickReloader},
-                {typeof(RepeatableAttackComponent), clickReloader},
+                {typeof(SimpleReloadComponent), clickReloader},
+                {typeof(SimpleReloadComponent), clickReloader},
             };
             
             var listeners = new List<IWeaponChangeListener>()
             {
-                new Attacker(attackersMap),
+                new CurrentAttackMode(attackersMap),
                 new Reloader(reloadersMap)
             };
             
@@ -153,7 +153,7 @@ namespace Common.Utils.WeaponSystem.Example.Test
                 Item item = new Item(
                     new List<IItemComponent>()
                     {
-                        new SingleClickAttackComponent()
+                        //new SingleClickAttackComponent()
                     });
                 
                 _equipment.EquipWeapon(item);
@@ -164,7 +164,7 @@ namespace Common.Utils.WeaponSystem.Example.Test
                 Item item = new Item(
                     new List<IItemComponent>()
                     {
-                        new RepeatableAttackComponent()
+                       //new RepeatableAttackComponent()
                     });
                 
                 _equipment.EquipWeapon(item);

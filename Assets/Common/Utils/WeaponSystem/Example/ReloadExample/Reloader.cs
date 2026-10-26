@@ -7,10 +7,10 @@ namespace Common.Utils.WeaponSystem.Example.ReloadExample
 {
     public class Reloader : IWeaponChangeListener
     {
-        private readonly Dictionary<Type, IReloader> _map;
-        private IReloader _current;
+        private readonly Dictionary<Type, IReloadMode> _map;
+        private IReloadMode _current;
         
-        public Reloader(Dictionary<Type, IReloader> map)
+        public Reloader(Dictionary<Type, IReloadMode> map)
         {
             _map = map;
         }
