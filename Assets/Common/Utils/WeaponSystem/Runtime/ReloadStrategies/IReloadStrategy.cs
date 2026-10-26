@@ -1,9 +1,9 @@
-using Common.Utils.WeaponSystem.Runtime.Magazine;
+using Common.Utils.Items.Runtime;
 
 namespace Common.Utils.WeaponSystem.Runtime.ReloadStrategies
 {
     public interface IReloadStrategy
     {
-        void Reload(IMagazine magazine);
+        void Reload(IItem magazine);
     }
 }

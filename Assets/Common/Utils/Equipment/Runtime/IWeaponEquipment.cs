@@ -5,8 +5,8 @@ namespace Common.Utils.Equipment.Runtime
 {
     public interface IWeaponEquipment
     {
-        event Action<Item> WeaponEquippedEvent;
-        void EquipWeapon(Item weapon);
+        event Action<IItem> WeaponEquippedEvent;
+        void EquipWeapon(IItem weapon);
         IItem GetCurrentWeapon();
     }
 }
