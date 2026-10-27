@@ -1,54 +1,17 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using Zenject;
-
-namespace Summer
+namespace Bootstrap
 {
-    public interface IBean
+    public class Bootstrap
     {
-        void Init();
-    }
+        private readonly IInitializer _initializer;
 
-    public interface IInitializer
-    {
-        
-    }
-    
-    public class Initializer
-    {
-        private readonly List<IBean> _beans;
-
-        public Initializer(List<IBean> beans)
+        public Bootstrap(IInitializer initializer)
         {
-            _beans = beans;
+            _initializer = initializer;
         }
-    }
-    
-    public class Bootstrap : MonoBehaviour
-    {
-        [Inject] private Module1 _module1;
-        [Inject] private Module2 _module2;
-        [Inject] private Module3 _module3;
-        
-        private void Start()
+
+        public void Start()
         {
-            if (_module1 == null)
-            {
-                Debug.LogError("_module1");
-            }
-            
-            if (_module2 == null)
-            {
-                Debug.LogError("_module2");
-            }
-            
-            if (_module3 == null)
-            {
-                Debug.LogError("_module3");
-            }
-            
-            Debug.LogError("Working");
+            _initializer.Start();
         }
 
         // 2 проекта 
