@@ -15,6 +15,7 @@ namespace Common.Utils.WeaponSystem.Example.AttackControlModes
         private readonly IAttackStrategy _strategy;
         private readonly MonoBehaviour _coroutineProvider;
         private Coroutine _coroutine;
+        private float _lastShotTime = -999;
         
         public HoldAttackControlMode(
             IInputAdapter inputAdapter,
@@ -34,8 +35,11 @@ namespace Common.Utils.WeaponSystem.Example.AttackControlModes
             _coroutine = _coroutineProvider.StartCoroutine(ShootRoutine());
         }
 
-        private IEnumerator ShootRoutine()//TODO усли просто кликать как пистолетм, то ничего не происходит :/
+        private IEnumerator ShootRoutine()
         {
+            //TODO можно закэшировать для оптимизации
+            // подписаться на смену оружия и кэшировать на смене
+            
             var weapon = _weaponEquipment.GetCurrentWeapon();
             if (!weapon.TryGetComponent<IShootComponent>(out var shootComponent))
             {
@@ -46,10 +50,21 @@ namespace Common.Utils.WeaponSystem.Example.AttackControlModes
 
             while (true)
             {
-                yield return new WaitForSeconds(shoot.GetFireRate());
+                if (!CanShootByRate(shoot.GetFireRate()))
+                {
+                    yield return null;
+                }
 
                 _strategy.Attack(weapon);
+                
+                _lastShotTime = Time.time;
             }
+        }
+        
+        private bool CanShootByRate(float fireRate)
+        {
+            var result = (Time.time - _lastShotTime) >= fireRate;
+            return result;
         }
 
         private void StopAttack()

@@ -161,7 +161,7 @@ namespace Common.Utils.WeaponSystem.Example.Test
                     new GunComponent(),
                     new HoldShootComponent(_uziFireRate),
                     new SimpleReloadComponent(),
-                    new BulletMagazine(config, 10)
+                    new BulletMagazine(config, 45)
                 });
         }
 
