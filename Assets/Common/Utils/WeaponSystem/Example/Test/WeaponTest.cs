@@ -41,6 +41,7 @@ namespace Common.Utils.WeaponSystem.Example.Test
         private WeaponChangeMediator _weaponChangeMediator;
         private IItem _pistol;
         private IItem _uzi;
+        private IItem _shotgun;
         
         private void Start()
         {
@@ -77,14 +78,21 @@ namespace Common.Utils.WeaponSystem.Example.Test
                 aimDirection,
                 shootPositionProvider,
                 fireRateValidator);
-
+            
             IStoppableAttackStrategy autoStrategy = new AutoBulletShootStrategy(
                 shootStrategy,
                 _bulletView,
                 fireRateValidator);
             
+            IAttackStrategy shotgunStrategy = new ShotgunShootStrategy(
+                shootAdapter,
+                aimDirection,
+                shootPositionProvider,
+                fireRateValidator);
+            
             BulletConfig config = new BulletConfig(BulletType.Simple, 100, 15, 15);
-                
+            BulletConfig ShotgunBarrelConfig = new BulletConfig(BulletType.Simple, 100, 15, 5);
+
             var attackersMap = new Dictionary<Type, IAttackControlMode>()
             {
                 {typeof(SingleClickShootComponent), new ClickAttackControlMode(
@@ -95,7 +103,12 @@ namespace Common.Utils.WeaponSystem.Example.Test
                 {typeof(HoldShootComponent), new HoldAttackControlMode(
                     _inputAdapter,
                     _equipment,
-                    autoStrategy)}
+                    autoStrategy)},
+                
+                {typeof(ShotgunShootComponent), new ClickAttackControlMode(
+                    _inputAdapter,
+                    _equipment,
+                    shotgunStrategy)}
             };
 
             var clickReloader = new ClickReloadControlMode(
@@ -133,6 +146,15 @@ namespace Common.Utils.WeaponSystem.Example.Test
                     new SimpleReloadComponent(),
                     new BulletMagazine(config, 45)
                 });
+            
+            _shotgun = new Item(
+                new List<IItemComponent>()
+                {
+                    new GunComponent(),
+                    new ShotgunShootComponent(15, _pistolFireRate, 15),
+                    new SimpleReloadComponent(),
+                    new BulletMagazine(ShotgunBarrelConfig, 4)
+                });
         }
 
         private void Update()
@@ -141,12 +163,14 @@ namespace Common.Utils.WeaponSystem.Example.Test
             {
                 _equipment.EquipWeapon(_pistol);
             }
-            
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 _equipment.EquipWeapon(_uzi);
             }
-            
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                _equipment.EquipWeapon(_shotgun);
+            }
             _bulletSystem.Update(Time.deltaTime);
         }
 
