@@ -77,6 +77,11 @@ namespace Common.Utils.WeaponSystem.Example.Test
                 aimDirection,
                 shootPositionProvider,
                 fireRateValidator);
+
+            IStoppableAttackStrategy autoStrategy = new AutoBulletShootStrategy(
+                shootStrategy,
+                _bulletView,
+                fireRateValidator);
             
             BulletConfig config = new BulletConfig(BulletType.Simple, 100, 15, 15);
                 
@@ -90,9 +95,7 @@ namespace Common.Utils.WeaponSystem.Example.Test
                 {typeof(HoldShootComponent), new HoldAttackControlMode(
                     _inputAdapter,
                     _equipment,
-                    shootStrategy,
-                    _bulletView,
-                    fireRateValidator)}
+                    autoStrategy)}
             };
 
             var clickReloader = new ClickReloadControlMode(
