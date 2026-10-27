@@ -24,44 +24,6 @@ using UnityEngine;
 
 namespace Common.Utils.WeaponSystem.Example.Test
 {
-    // у перезарядки должно быть время
-    // во время перезарядки нельзя стрелять
-    // перезарядку магазина нельзя прервать
-    // но дробовики и ружья с перезарядкой по патрону можно прервать,
-    // обычно ЛКМ, но можно сделать повторным нажатием на кнопку перезарядки
-    
-    // нужны разные атакеры, на сингл клик и холд
-    // туда же можно отправить гранаты, сперва прицелился, потом бросил
-    // или зажал, высчиталась сила броска и бросок происходит на отпускании кнопки
-
-    // что я хочу как юзер кода
-    // мне надо создать пистолет
-    // дробовик
-    // пулемет
-    // биту
-    // снайперка (тут особое прицеливание)
-    // плазма ган
-    
-    // хочу написать новый тип боезапаса, если нужен новый
-    
-    // стрельба
-    // написать логику реагирования на инпут стрельбы
-    // например клик, холд, холд-релиз
-    
-    // перезарядка
-    // написать логику реагирования на инпут перезарядки
-    
-    // прицеливание
-    // как целиться, просто от плеча или с зумом
-    
-    // доступно ли парное использование
-    
-    // логику хвата 1 или 2 руки
-    
-    // альтернативное действие, подствольник или типа того
-    
-    // смена режима стрельбы
-
     public class WeaponTest : MonoBehaviour
     {
         [SerializeField] private InputAdapter _input;
@@ -107,11 +69,14 @@ namespace Common.Utils.WeaponSystem.Example.Test
             IAimDirection aimDirection = new AimDirection(_cameraT);
             IReloadStrategy reloadStrategy = new BulletReloadStrategy();
             IshootPositionProvider shootPositionProvider = new ShootPositionProvider(_weaponView);
+
+            var fireRateValidator = new FireRateValidator();
             
             IAttackStrategy shootStrategy = new SingleBulletShootStrategy(
                 shootAdapter,
                 aimDirection,
-                shootPositionProvider);
+                shootPositionProvider,
+                fireRateValidator);
             
             BulletConfig config = new BulletConfig(BulletType.Simple, 100, 15, 15);
                 
@@ -121,11 +86,13 @@ namespace Common.Utils.WeaponSystem.Example.Test
                     _inputAdapter,
                     _equipment,
                     shootStrategy)},
+                
                 {typeof(HoldShootComponent), new HoldAttackControlMode(
                     _inputAdapter,
                     _equipment,
                     shootStrategy,
-                    _bulletView)}
+                    _bulletView,
+                    fireRateValidator)}
             };
 
             var clickReloader = new ClickReloadControlMode(

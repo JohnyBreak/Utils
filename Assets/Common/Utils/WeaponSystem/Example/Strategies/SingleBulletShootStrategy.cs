@@ -14,15 +14,18 @@ namespace Common.Utils.WeaponSystem.Example.Strategies
         private readonly IAimDirection _aimDirection;
         private readonly IshootPositionProvider _positionProvider;
         private float _lastShotTime = -999;
-        
+        private readonly IFireRateValidator _fireRateValidator;
+
         public SingleBulletShootStrategy(
             IShootAdapter adapter,
             IAimDirection aimDirection,
-            IshootPositionProvider positionProvider)
+            IshootPositionProvider positionProvider,
+            IFireRateValidator fireRateValidator)
         {
             _adapter = adapter;
             _aimDirection = aimDirection;
             _positionProvider = positionProvider;
+            _fireRateValidator = fireRateValidator;
         }
 
         public void Attack(IItem item)
@@ -46,7 +49,7 @@ namespace Common.Utils.WeaponSystem.Example.Strategies
                 return;
             }
 
-            if (!CanShootByRate(shoot.GetFireRate()))
+            if (!_fireRateValidator.CanShoot(_lastShotTime, shoot.GetFireRate()))
             {
                 return;
             }
@@ -61,12 +64,6 @@ namespace Common.Utils.WeaponSystem.Example.Strategies
             magazine.Consume();
 
             _lastShotTime = Time.time;
-        }
-
-        private bool CanShootByRate(float fireRate)
-        {
-            var result = (Time.time - _lastShotTime) >= fireRate;
-            return result;
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Common.Utils.Equipment.Runtime;
+using Common.Utils.WeaponSystem.Example.Strategies;
 using Common.Utils.WeaponSystem.Runtime.AttackControlMode;
 using Common.Utils.WeaponSystem.Runtime.AttackStrategies;
 using Common.Utils.WeaponSystem.Runtime.Components;
@@ -14,6 +15,7 @@ namespace Common.Utils.WeaponSystem.Example.AttackControlModes
         private readonly IWeaponEquipment _weaponEquipment;
         private readonly IAttackStrategy _strategy;
         private readonly MonoBehaviour _coroutineProvider;
+        private readonly IFireRateValidator _fireRateValidator;
         private Coroutine _coroutine;
         private float _lastShotTime = -999;
         
@@ -21,12 +23,14 @@ namespace Common.Utils.WeaponSystem.Example.AttackControlModes
             IInputAdapter inputAdapter,
             IWeaponEquipment equipment,
             IAttackStrategy strategy,
-            MonoBehaviour coroutineProvider)
+            MonoBehaviour coroutineProvider,
+            IFireRateValidator fireRateValidator)
         {
             _inputAdapter = inputAdapter;
             _weaponEquipment = equipment;
             _strategy = strategy;
             _coroutineProvider = coroutineProvider;
+            _fireRateValidator = fireRateValidator;
         }
         
         private void Attack()
@@ -35,7 +39,8 @@ namespace Common.Utils.WeaponSystem.Example.AttackControlModes
             _coroutine = _coroutineProvider.StartCoroutine(ShootRoutine());
         }
 
-        private IEnumerator ShootRoutine()
+        //TODO можно вынести всю эту логику в стратегию стрельбы, ведь это только control mode, сделать IStoppableAttackStrategy и работать через него
+        private IEnumerator ShootRoutine() 
         {
             //TODO можно закэшировать для оптимизации
             // подписаться на смену оружия и кэшировать на смене
@@ -50,7 +55,7 @@ namespace Common.Utils.WeaponSystem.Example.AttackControlModes
 
             while (true)
             {
-                if (!CanShootByRate(shoot.GetFireRate()))
+                if (!_fireRateValidator.CanShoot(_lastShotTime, shoot.GetFireRate()))
                 {
                     yield return null;
                 }
@@ -59,12 +64,6 @@ namespace Common.Utils.WeaponSystem.Example.AttackControlModes
                 
                 _lastShotTime = Time.time;
             }
-        }
-        
-        private bool CanShootByRate(float fireRate)
-        {
-            var result = (Time.time - _lastShotTime) >= fireRate;
-            return result;
         }
 
         private void StopAttack()
