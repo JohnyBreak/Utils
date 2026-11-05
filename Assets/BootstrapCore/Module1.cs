@@ -4,14 +4,14 @@ using UnityEngine;
 namespace Summer
 {
     [SummerSettings(10)]
-    public class Module1 : IOrdered
+    public class Module1 : IExecutableModule
     {
         public Module1()
         {
             
         }
 
-        public void StartExecute()
+        public void Execute()
         {
             Debug.Log("1");
         }

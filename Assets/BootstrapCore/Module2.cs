@@ -5,11 +5,11 @@ using Zenject;
 namespace Summer
 {
     [SummerSettings(2)]
-    public class Module2 : MonoBehaviour, IOrdered
+    public class Module2 : MonoBehaviour, IExecutableModule
     {
         [Inject] private Module1 _module1;
 
-        public void StartExecute()
+        public void Execute()
         {
             Debug.Log("2");
         }
