@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Summer
 {
-    [SummerSettings(10)]
+    [SummerSettings(typeof(MainStage), 10)]
     public class Module1 : IExecutableModule
     {
         public Module1()

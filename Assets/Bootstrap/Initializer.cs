@@ -7,16 +7,21 @@ namespace Bootstrap
 {
     public class Initializer : IInitializer
     {
+        private readonly Dictionary<Type, int> _stages = new Dictionary<Type, int>();
         private readonly List<IExecutableModule> _sortedModules;
 
-        public Initializer(List<IExecutableModule> sortedModules)
+        public Initializer(List<Type> stages, List<IExecutableModule> sortedModules)
         {
+            for (int i = 0; i < stages.Count; i++)
+            {
+                _stages[stages[i]] = i;
+            }
+            
             _sortedModules = sortedModules;
         }
 
         public void Start()
         {
-            // не дублировать сами модули
             ValidateDuplicatedModules(_sortedModules);
             ValidateDuplicatedOrders(_sortedModules);
             
@@ -34,12 +39,48 @@ namespace Bootstrap
 
         private void Sort(List<IExecutableModule> ordereds)
         {
-            ordereds.Sort((left, right) => GetOrder(left).CompareTo(GetOrder(right)));
+            ordereds.Sort(
+                (left, right) =>
+                {
+                    var stagesResult = GetStage(left).CompareTo(GetOrder(right));
+                    
+                    if(stagesResult != 0)
+                    {
+                        return stagesResult;
+                    }
+                
+                    
+                    return GetOrder(left).CompareTo(GetOrder(right));
+                });
+        }
+
+        private int GetStage(object obj)
+        {
+            var attributes = GetSummerAttributes(obj);
+            
+            if (attributes.Count < 1)
+            {
+                throw new SummerModuleException($"У модуля {obj.GetType()} нет стадии");
+            }
+
+            var type = attributes[0].StageType;
+            
+            if (type == null)
+            {
+                throw new SummerModuleException($"У модуля {obj.GetType()} null стадия");
+            }
+
+            if (!_stages.TryGetValue(type, out var index))
+            {
+                throw new SummerModuleException($"У модуля {obj.GetType()} не зарегистрированная стадия {type}");
+            }
+
+            return index;
         }
 
         private int GetOrder(object obj)
         {
-            if (obj is IOrdered ordered)
+            if (obj is ISummerModule ordered)
             {
                 return ordered.GetOrder();
             }
@@ -90,7 +131,7 @@ namespace Bootstrap
         {
             foreach (var module in sortedModules)
             {
-                if (HasSummerAttributes<SummerSettingsAttribute>(module) && module is IOrdered)
+                if (HasSummerAttributes<SummerSettingsAttribute>(module) && module is ISummerModule)
                 {
                     throw new SummerModuleException("Module has SummerSettingsAttribute and has implemented IOrdered.");//TODO переписать сообщение
                 }

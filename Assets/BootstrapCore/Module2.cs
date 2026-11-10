@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Summer
 {
-    [SummerSettings(2)]
+    [SummerSettings(typeof(MainStage), 2)]
     public class Module2 : MonoBehaviour, IExecutableModule
     {
         [Inject] private Module1 _module1;
