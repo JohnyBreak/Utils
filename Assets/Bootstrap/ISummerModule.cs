@@ -1,6 +1,6 @@
 using System;
 
-namespace Bootstrap.Editor
+namespace Bootstrap
 {
     public interface ISummerModule
     {

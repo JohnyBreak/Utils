@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Bootstrap.Exceptions;
+using Bootstrap.Strategies;
+using Bootstrap.Validation;
 using NUnit.Framework;
-using UnityEditor.Search;
-using UnityEditor.UI;
 
 // макс дорофеев
 // этапы
@@ -11,120 +12,120 @@ using UnityEditor.UI;
 
 namespace Bootstrap.Editor.BootstrapTests.Tests
 {
-    [SummerSettings(typeof(MainStage), 1)]
-    public class Module1Test : IExecutableModule, ISummerModule
-    {
-        private int _order;
-        private readonly Queue<int> _states;
-        public int State;
-
-        public Module1Test(Queue<int> states)
-        {
-            _states = states;
-        }
-
-        public void Execute()
-        {
-            State = _states.Dequeue();
-        }
-
-        public int GetOrder()
-        {
-            return _order;
-        }
-    }
-
-    [SummerSettings(typeof(MainStage),2)]
-    public class Module2Test : IExecutableModule, ISummerModule
-    {
-        private int _order;
-        private readonly Queue<int> _states;
-        public int State;
-
-        public Module2Test(Queue<int> states)
-        {
-            _states = states;
-        }
-
-        public void Execute()
-        {
-            State = _states.Dequeue();
-        }
-
-        public int GetOrder()
-        {
-            return _order;
-        }
-    }
-
-    public class ModuleInterface1Test : IExecutableModule, ISummerModule
-    {
-        private int _order;
-        private readonly Queue<int> _states;
-        public int State;
-
-        public ModuleInterface1Test(Queue<int> states)
-        {
-            _states = states;
-        }
-
-        public void Execute()
-        {
-            State = _states.Dequeue();
-        }
-
-        public int GetOrder()
-        {
-            return 1;
-        }
-    }
-
-    public class ModuleInterface2Test : IExecutableModule, ISummerModule
-    {
-        private int _order;
-        private readonly Queue<int> _states;
-        public int State;
-
-        public ModuleInterface2Test(Queue<int> states)
-        {
-            _states = states;
-        }
-
-        public void Execute()
-        {
-            State = _states.Dequeue();
-        }
-
-        public int GetOrder()
-        {
-            return 2;
-        }
-    }
-
-    public class ModuleInterface3Test : IExecutableModule, ISummerModule
-    {
-        private int _order;
-        private readonly Queue<int> _states;
-        public int State;
-
-        public ModuleInterface3Test(Queue<int> states)
-        {
-            _states = states;
-        }
-
-        public void Execute()
-        {
-            State = _states.Dequeue();
-        }
-
-        public int GetOrder()
-        {
-            return 3;
-        }
-    }
-
     public class BootstrapTestScript
     {
+        [SummerSettings(typeof(MainStage), 1)]
+        public class Module1Test : IExecutableModule, ISummerModule
+        {
+            private int _order;
+            private readonly Queue<int> _states;
+            public int State;
+
+            public Module1Test(Queue<int> states)
+            {
+                _states = states;
+            }
+
+            public void Execute()
+            {
+                State = _states.Dequeue();
+            }
+
+            public int GetOrder()
+            {
+                return _order;
+            }
+        }
+
+        [SummerSettings(typeof(MainStage), 2)]
+        public class Module2Test : IExecutableModule, ISummerModule
+        {
+            private int _order;
+            private readonly Queue<int> _states;
+            public int State;
+
+            public Module2Test(Queue<int> states)
+            {
+                _states = states;
+            }
+
+            public void Execute()
+            {
+                State = _states.Dequeue();
+            }
+
+            public int GetOrder()
+            {
+                return _order;
+            }
+        }
+
+        public class ModuleInterface1Test : IExecutableModule, ISummerModule
+        {
+            private int _order;
+            private readonly Queue<int> _states;
+            public int State;
+
+            public ModuleInterface1Test(Queue<int> states)
+            {
+                _states = states;
+            }
+
+            public void Execute()
+            {
+                State = _states.Dequeue();
+            }
+
+            public int GetOrder()
+            {
+                return 1;
+            }
+        }
+
+        public class ModuleInterface2Test : IExecutableModule, ISummerModule
+        {
+            private int _order;
+            private readonly Queue<int> _states;
+            public int State;
+
+            public ModuleInterface2Test(Queue<int> states)
+            {
+                _states = states;
+            }
+
+            public void Execute()
+            {
+                State = _states.Dequeue();
+            }
+
+            public int GetOrder()
+            {
+                return 2;
+            }
+        }
+
+        public class ModuleInterface3Test : IExecutableModule, ISummerModule
+        {
+            private int _order;
+            private readonly Queue<int> _states;
+            public int State;
+
+            public ModuleInterface3Test(Queue<int> states)
+            {
+                _states = states;
+            }
+
+            public void Execute()
+            {
+                State = _states.Dequeue();
+            }
+
+            public int GetOrder()
+            {
+                return 3;
+            }
+        }
+
         // A Test behaves as an ordinary method
         [Test]
         public void BootstrapTestScriptSimplePasses()
@@ -148,7 +149,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 module2
             };
 
-            IInitializer initializer = new Initializer(new List<Type>(){typeof(MainStage)},list);
+            IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
             var bootstrap = new Bootstrap(initializer);
 
             // act действие
@@ -182,7 +183,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 module1
             };
 
-            IInitializer initializer = new Initializer(new List<Type>(){typeof(MainStage)},list);
+            IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
             var bootstrap = new Bootstrap(initializer);
 
             // act действие
@@ -195,7 +196,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             Assert.AreEqual(thirdState, module3.State);
         }
 
-        [SummerSettings(typeof(MainStage),1)]
+        [SummerSettings(typeof(MainStage), 1)]
         public class ModuleAttribute1Test : IExecutableModule
         {
             private int _order;
@@ -213,7 +214,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             }
         }
 
-        [SummerSettings(typeof(MainStage),2)]
+        [SummerSettings(typeof(MainStage), 2)]
         public class ModuleAttribute2Test : IExecutableModule
         {
             private int _order;
@@ -231,7 +232,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             }
         }
 
-        [SummerSettings(typeof(MainStage),3)]
+        [SummerSettings(typeof(MainStage), 3)]
         public class ModuleAttribute3Test : IExecutableModule
         {
             private int _order;
@@ -273,7 +274,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 module1
             };
 
-            IInitializer initializer = new Initializer(new List<Type>(){typeof(MainStage)},list);
+            IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
             var bootstrap = new Bootstrap(initializer);
 
             // act действие
@@ -286,7 +287,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             Assert.AreEqual(thirdState, module3.State);
         }
 
-        [SummerSettings(typeof(MainStage),0)]
+        [SummerSettings(typeof(MainStage), 0)]
         public class ModuleOrderDuplicate1Test : IExecutableModule
         {
             private int _order;
@@ -303,8 +304,8 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 State = _states.Dequeue();
             }
         }
-        
-        [SummerSettings(typeof(MainStage),0)]
+
+        [SummerSettings(typeof(MainStage), 0)]
         public class ModuleOrderDuplicate2Test : IExecutableModule
         {
             private int _order;
@@ -321,7 +322,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 State = _states.Dequeue();
             }
         }
-        
+
         [Test]
         public void BootstrapOrderDuplicates_Exception()
         {
@@ -344,7 +345,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 module1,
             };
 
-            IInitializer initializer = new Initializer(new List<Type>(){typeof(MainStage)},list);
+            IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
             var bootstrap = new Bootstrap(initializer);
 
             // act действие
@@ -353,7 +354,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
 
             Assert.Throws<SummerModuleException>(() => bootstrap.Start());
         }
-        
+
         public class ModuleDuplicate1Test : IExecutableModule
         {
             private int _order;
@@ -370,7 +371,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 State = _states.Dequeue();
             }
         }
-        
+
         [Test]
         public void BootstrapModuleDuplicates_Exception()
         {
@@ -393,7 +394,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 module1,
             };
 
-            IInitializer initializer = new Initializer(new List<Type>(){typeof(MainStage)},list);
+            IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
             var bootstrap = new Bootstrap(initializer);
 
             // act действие
@@ -402,7 +403,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
 
             Assert.Throws<SummerModuleException>(() => bootstrap.Start());
         }
-        
+
         [SummerDuplicate]
         public class ModuleDuplicateAttributeTest : IExecutableModule, ISummerModule
         {
@@ -422,7 +423,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 return _order;
             }
         }
-        
+
         [Test]
         public void BootstrapModuleDuplicateAttribute_Success()
         {
@@ -437,12 +438,13 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 module1,
             };
 
-            IInitializer initializer = new Initializer(new List<Type>(){typeof(MainStage)},list);
-            var bootstrap = new Bootstrap(initializer);
+            IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
             
+            var bootstrap = new Bootstrap(initializer);
+
             // act действие
             bootstrap.Start();
-            
+
             // assert проверка
 
             Assert.True(true);
@@ -450,19 +452,17 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
 
         public class FirstStage
         {
-            
         }
-        
+
         public class SecondStage
         {
-            
         }
-        
+
         public class ThirdStage
         {
-            
         }
-        [SummerSettings(typeof(FirstStage),3)]
+
+        [SummerSettings(typeof(FirstStage), 1)]
         public class ModuleStage1Test : IExecutableModule
         {
             private int _order;
@@ -479,8 +479,8 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 State = _states.Dequeue();
             }
         }
-        
-        [SummerSettings(typeof(SecondStage),3)]
+
+        [SummerSettings(typeof(SecondStage), 2)]
         public class ModuleStage2Test : IExecutableModule
         {
             private int _order;
@@ -497,8 +497,8 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 State = _states.Dequeue();
             }
         }
-        
-        [SummerSettings(typeof(ThirdStage),3)]
+
+        [SummerSettings(typeof(ThirdStage), 3)]
         public class ModuleStage3Test : IExecutableModule
         {
             private int _order;
@@ -515,7 +515,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 State = _states.Dequeue();
             }
         }
-        
+
         [Test]
         public void Stage_Success()
         {
@@ -540,13 +540,13 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 module1
             };
 
-            IInitializer initializer = new Initializer(new List<Type>()
+
+            IInitializer initializer = CreateInitializer(new List<Type>()
             {
                 typeof(FirstStage),
                 typeof(SecondStage),
                 typeof(ThirdStage)
-            },
-                list);
+            },list);
             var bootstrap = new Bootstrap(initializer);
 
             // act действие
@@ -557,6 +557,68 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             Assert.AreEqual(firstState, module1.State);
             Assert.AreEqual(secondState, module2.State);
             Assert.AreEqual(thirdState, module3.State);
+        }
+        
+        private IInitializer CreateInitializer(List<Type> stages, List<IExecutableModule> modules)
+        {
+            var map = GetStagesMap(stages);
+            
+            var infoGetter = CreateSummerInfoGetter();
+            
+            var validator = new SummerValidator(infoGetter);
+            
+            IInitializer initializer = new Initializer(
+                map,
+                modules,
+                infoGetter,
+                infoGetter,
+                validator);
+
+            return initializer;
+            
+            Dictionary<Type, int> GetStagesMap(List<Type> list)
+            {
+                Dictionary<Type, int> stages = new Dictionary<Type, int>();
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    stages[list[i]] = i;
+                }
+
+                return stages;
+            }
+            
+            SummerInfoGetter CreateSummerInfoGetter()
+            {
+                var result = new SummerInfoGetter(
+                    new List<IGetStageIndexStrategy>()
+                {
+                    new InterfaceStageIndexGetter(GetStageIndex),
+                    new AttributeStageIndexGetter(GetStageIndex),
+                },
+                new List<IGetOrderStrategy>()
+                {
+                    new InterfaceOrderGetter(),
+                    new AttributeOrderGetter(),
+                });
+
+                return result;
+            }
+            
+            int GetStageIndex(object obj, Type type)
+            {
+                if (type == null)
+                {
+                    throw new SummerModuleException($"У модуля {obj.GetType()} null стадия");
+                }
+
+                if (!map.TryGetValue(type, out var index))
+                {
+                    throw new SummerModuleException($"У модуля {obj.GetType()} не зарегистрированная стадия {type}");
+                }
+
+                return index;
+            }
         }
     }
 }
