@@ -6,9 +6,7 @@
         "UnityEditor.TestRunner",
         "Bootstrap"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

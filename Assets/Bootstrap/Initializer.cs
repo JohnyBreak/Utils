@@ -40,6 +40,7 @@ namespace Bootstrap
         private readonly IGetStageIndexStrategy _stageIndexStrategy;
         private readonly IGetOrderStrategy _orderStrategy;
         private readonly ISummerValidator _validator;
+        private bool _isComplete;
         
         public Initializer(
             Dictionary<Type, int> stages,
@@ -84,8 +85,14 @@ namespace Bootstrap
                     }
                 }
             }
-            
+
+            _isComplete = true;
             Debug.Log("complete");
+        }
+
+        public bool IsComplete()
+        {
+            return _isComplete;
         }
 
         private IEnumerator Execute(IExecutableModule ordered, int retryNumber, PromiseStatusHolder holder)

@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Bootstrap.Exceptions;
 using Bootstrap.Strategies;
 using Bootstrap.Validation;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 // макс дорофеев
 // этапы
@@ -16,7 +18,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
     public class BootstrapTestScript
     {
         private CoroutineRunner _runner;
-        
+
         [SummerSettings(typeof(MainStage), 1)]
         public class Module1Test : IExecutableModule, ISummerModule
         {
@@ -135,8 +137,8 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
         }
 
         // A Test behaves as an ordinary method
-        [Test]
-        public void BootstrapTestScriptSimplePasses()
+        [UnityTest]
+        public IEnumerator BootstrapTestScriptSimplePasses()
         {
             // Use the Assert class to test conditions
 
@@ -159,16 +161,41 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
 
             IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
             var bootstrap = GetBootstrap(initializer);
-
+ToggleLogIgnore(true);
+            
             // act действие
-
+            
+            var routine = bootstrap.GetEnumerator();
+            
+            bool exceptionThrown = false;
+            while (true)
+            {
+                object current;
+                try
+                {
+                    if (!routine.MoveNext()) break;
+                    current = routine.Current;
+                }
+                catch (SummerModuleException)
+                {
+                    exceptionThrown = true;
+                    break;
+                }
+                
+                yield return current; 
+            }
+            
             // assert проверка
 
-            Assert.Throws<SummerModuleException>(() => bootstrap.Start());
+            Assert.IsTrue(exceptionThrown, "Ожидалось исключение SummerModuleException, но его не было.");
+            
+            //Assert.Throws<SummerModuleException>(() => bootstrap.Start());
+            ToggleLogIgnore(false);
+            yield return null;
         }
 
-        [Test]
-        public void BootstrapOrderInterface_Success()
+        [UnityTest]
+        public IEnumerator BootstrapOrderInterface_Success()
         {
             // arrange инициализация
             const int firstState = 456;
@@ -195,13 +222,17 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             var bootstrap = GetBootstrap(initializer);
 
             // act действие
+            
             bootstrap.Start();
-
+            
             // assert проверка
 
+            yield return new WaitUntil(bootstrap.IsComplete);
+            
             Assert.AreEqual(firstState, module1.State);
             Assert.AreEqual(secondState, module2.State);
             Assert.AreEqual(thirdState, module3.State);
+            yield return null;
         }
 
         [SummerSettings(typeof(MainStage), 1)]
@@ -261,8 +292,8 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             }
         }
 
-        [Test]
-        public void BootstrapOrderAttribute_Success()
+        [UnityTest]
+        public IEnumerator BootstrapOrderAttribute_Success()
         {
             // arrange инициализация
             const int firstState = 456;
@@ -284,7 +315,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 module3,
                 module1
             };
-            
+
             IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
             var bootstrap = GetBootstrap(initializer);
 
@@ -293,9 +324,12 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
 
             // assert проверка
 
+            yield return new WaitUntil(bootstrap.IsComplete);
+            
             Assert.AreEqual(firstState, module1.State);
             Assert.AreEqual(secondState, module2.State);
             Assert.AreEqual(thirdState, module3.State);
+            yield return null;
         }
 
         [SummerSettings(typeof(MainStage), 0)]
@@ -336,8 +370,8 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             }
         }
 
-        [Test]
-        public void BootstrapOrderDuplicates_Exception()
+        [UnityTest]
+        public IEnumerator BootstrapOrderDuplicates_Exception()
         {
             // Use the Assert class to test conditions
 
@@ -360,12 +394,38 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
 
             IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
             var bootstrap = GetBootstrap(initializer);
-
+            
+            ToggleLogIgnore(true);
+            
             // act действие
-
+            
+            var routine = bootstrap.GetEnumerator();
+            
+            bool exceptionThrown = false;
+            while (true)
+            {
+                object current;
+                try
+                {
+                    if (!routine.MoveNext()) break;
+                    current = routine.Current;
+                }
+                catch (SummerModuleException)
+                {
+                    exceptionThrown = true;
+                    break;
+                }
+                
+                yield return current; 
+            }
+            
             // assert проверка
 
-            Assert.Throws<SummerModuleException>(() => bootstrap.Start());
+            Assert.IsTrue(exceptionThrown, "Ожидалось исключение SummerModuleException, но его не было.");
+            
+            //Assert.Throws<SummerModuleException>(() => bootstrap.Start());
+            ToggleLogIgnore(false);
+            yield return null;
         }
 
         public class ModuleDuplicate1Test : IExecutableModule
@@ -386,8 +446,8 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             }
         }
 
-        [Test]
-        public void BootstrapModuleDuplicates_Exception()
+        [UnityTest]
+        public IEnumerator BootstrapModuleDuplicates_Exception()
         {
             // Use the Assert class to test conditions
 
@@ -410,12 +470,38 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
 
             IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
             var bootstrap = GetBootstrap(initializer);
-
+            
+            ToggleLogIgnore(true);
+            
             // act действие
-
+            
+            var routine = bootstrap.GetEnumerator();
+            
+            bool exceptionThrown = false;
+            while (true)
+            {
+                object current;
+                try
+                {
+                    if (!routine.MoveNext()) break;
+                    current = routine.Current;
+                }
+                catch (SummerModuleException)
+                {
+                    exceptionThrown = true;
+                    break;
+                }
+                
+                yield return current; 
+            }
+            
             // assert проверка
 
-            Assert.Throws<SummerModuleException>(() => bootstrap.Start());
+            Assert.IsTrue(exceptionThrown, "Ожидалось исключение SummerModuleException, но его не было.");
+            
+            //Assert.Throws<SummerModuleException>(() => bootstrap.Start());
+            ToggleLogIgnore(false);
+            yield return null;
         }
 
         [SummerDuplicate]
@@ -439,8 +525,8 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             }
         }
 
-        [Test]
-        public void BootstrapModuleDuplicateAttribute_Success()
+        [UnityTest]
+        public IEnumerator BootstrapModuleDuplicateAttribute_Success()
         {
             // arrange инициализация
 
@@ -454,7 +540,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             };
 
             IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
-            
+
             var bootstrap = GetBootstrap(initializer);
 
             // act действие
@@ -463,6 +549,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             // assert проверка
 
             Assert.True(true);
+            yield return null;
         }
 
         public class FirstStage
@@ -534,8 +621,8 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             }
         }
 
-        [Test]
-        public void Stage_Success()
+        [UnityTest]
+        public IEnumerator Stage_Success()
         {
             // arrange инициализация
             const int firstState = 456;
@@ -558,23 +645,27 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 module1
             };
 
-
             IInitializer initializer = CreateInitializer(new List<Type>()
             {
                 typeof(FirstStage),
                 typeof(SecondStage),
                 typeof(ThirdStage)
-            },list);
-            
+            }, list);
+
             var bootstrap = GetBootstrap(initializer);
+            
             // act действие
+            
             bootstrap.Start();
 
             // assert проверка
 
+            yield return new WaitUntil(bootstrap.IsComplete);
+            
             Assert.AreEqual(firstState, module1.State);
             Assert.AreEqual(secondState, module2.State);
             Assert.AreEqual(thirdState, module3.State);
+            yield return null;
         }
 
         private Bootstrap GetBootstrap(IInitializer initializer)
@@ -585,7 +676,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _runner = go.AddComponent<CoroutineRunner>();
             }
 
-            
+
             var bootstrap = new Bootstrap(_runner, initializer);
             return bootstrap;
         }
@@ -593,11 +684,11 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
         private IInitializer CreateInitializer(List<Type> stages, List<IExecutableModule> modules)
         {
             var map = GetStagesMap(stages);
-            
+
             var infoGetter = CreateSummerInfoGetter();
-            
+
             var validator = new SummerValidator(infoGetter);
-            
+
             IInitializer initializer = new Initializer(
                 map,
                 modules,
@@ -607,7 +698,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 3);
 
             return initializer;
-            
+
             Dictionary<Type, int> GetStagesMap(List<Type> list)
             {
                 Dictionary<Type, int> stages = new Dictionary<Type, int>();
@@ -619,24 +710,24 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
 
                 return stages;
             }
-            
+
             SummerInfoGetter CreateSummerInfoGetter()
             {
                 var result = new SummerInfoGetter(
                     new List<IGetStageIndexStrategy>()
-                {
-                    new InterfaceStageIndexGetter(GetStageIndex),
-                    new AttributeStageIndexGetter(GetStageIndex),
-                },
-                new List<IGetOrderStrategy>()
-                {
-                    new InterfaceOrderGetter(),
-                    new AttributeOrderGetter(),
-                });
+                    {
+                        new InterfaceStageIndexGetter(GetStageIndex),
+                        new AttributeStageIndexGetter(GetStageIndex),
+                    },
+                    new List<IGetOrderStrategy>()
+                    {
+                        new InterfaceOrderGetter(),
+                        new AttributeOrderGetter(),
+                    });
 
                 return result;
             }
-            
+
             int GetStageIndex(object obj, Type type)
             {
                 if (type == null)
@@ -651,6 +742,11 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
 
                 return index;
             }
+        }
+        
+        private void ToggleLogIgnore(bool ignore)
+        {
+            LogAssert.ignoreFailingMessages = ignore;
         }
     }
 }

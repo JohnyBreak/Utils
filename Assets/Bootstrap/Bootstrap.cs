@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Bootstrap
@@ -16,6 +17,16 @@ namespace Bootstrap
         public void Start()
         {
             _coroutineRunner.StartCoroutine(_initializer.Start());
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return _initializer.Start();
+        }
+
+        public bool IsComplete()
+        {
+            return _initializer.IsComplete();
         }
 
         // 2 проекта 
