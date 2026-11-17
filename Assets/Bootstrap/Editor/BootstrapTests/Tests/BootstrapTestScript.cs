@@ -4,6 +4,7 @@ using Bootstrap.Exceptions;
 using Bootstrap.Strategies;
 using Bootstrap.Validation;
 using NUnit.Framework;
+using UnityEngine;
 
 // макс дорофеев
 // этапы
@@ -14,6 +15,8 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
 {
     public class BootstrapTestScript
     {
+        private CoroutineRunner _runner;
+        
         [SummerSettings(typeof(MainStage), 1)]
         public class Module1Test : IExecutableModule, ISummerModule
         {
@@ -26,9 +29,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
 
             public int GetOrder()
@@ -49,9 +53,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
 
             public int GetOrder()
@@ -71,9 +76,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
 
             public int GetOrder()
@@ -93,9 +99,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
 
             public int GetOrder()
@@ -115,9 +122,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
 
             public int GetOrder()
@@ -150,7 +158,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             };
 
             IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
-            var bootstrap = new Bootstrap(initializer);
+            var bootstrap = GetBootstrap(initializer);
 
             // act действие
 
@@ -184,7 +192,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             };
 
             IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
-            var bootstrap = new Bootstrap(initializer);
+            var bootstrap = GetBootstrap(initializer);
 
             // act действие
             bootstrap.Start();
@@ -208,9 +216,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
         }
 
@@ -226,9 +235,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
         }
 
@@ -244,9 +254,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
         }
 
@@ -273,9 +284,9 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 module3,
                 module1
             };
-
+            
             IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
-            var bootstrap = new Bootstrap(initializer);
+            var bootstrap = GetBootstrap(initializer);
 
             // act действие
             bootstrap.Start();
@@ -299,9 +310,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
         }
 
@@ -317,9 +329,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
         }
 
@@ -346,7 +359,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             };
 
             IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
-            var bootstrap = new Bootstrap(initializer);
+            var bootstrap = GetBootstrap(initializer);
 
             // act действие
 
@@ -366,9 +379,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
         }
 
@@ -395,7 +409,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             };
 
             IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
-            var bootstrap = new Bootstrap(initializer);
+            var bootstrap = GetBootstrap(initializer);
 
             // act действие
 
@@ -414,8 +428,9 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _order = order;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
+                return Promise.Success();
             }
 
             public int GetOrder()
@@ -440,7 +455,7 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
 
             IInitializer initializer = CreateInitializer(new List<Type>() { typeof(MainStage) }, list);
             
-            var bootstrap = new Bootstrap(initializer);
+            var bootstrap = GetBootstrap(initializer);
 
             // act действие
             bootstrap.Start();
@@ -474,9 +489,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
         }
 
@@ -492,9 +508,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
         }
 
@@ -510,9 +527,10 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
-            public void Execute()
+            public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
             }
         }
 
@@ -547,8 +565,8 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 typeof(SecondStage),
                 typeof(ThirdStage)
             },list);
-            var bootstrap = new Bootstrap(initializer);
-
+            
+            var bootstrap = GetBootstrap(initializer);
             // act действие
             bootstrap.Start();
 
@@ -558,7 +576,20 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
             Assert.AreEqual(secondState, module2.State);
             Assert.AreEqual(thirdState, module3.State);
         }
-        
+
+        private Bootstrap GetBootstrap(IInitializer initializer)
+        {
+            if (_runner == null)
+            {
+                var go = new GameObject("TestRunner");
+                _runner = go.AddComponent<CoroutineRunner>();
+            }
+
+            
+            var bootstrap = new Bootstrap(_runner, initializer);
+            return bootstrap;
+        }
+
         private IInitializer CreateInitializer(List<Type> stages, List<IExecutableModule> modules)
         {
             var map = GetStagesMap(stages);
@@ -572,7 +603,8 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 modules,
                 infoGetter,
                 infoGetter,
-                validator);
+                validator,
+                3);
 
             return initializer;
             

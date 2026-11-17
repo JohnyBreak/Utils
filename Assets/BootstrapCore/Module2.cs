@@ -9,9 +9,10 @@ namespace Summer
     {
         [Inject] private Module1 _module1;
 
-        public void Execute()
+        public Promise Execute()
         {
             Debug.Log("2");
+            return Promise.Success();
         }
     }
 }

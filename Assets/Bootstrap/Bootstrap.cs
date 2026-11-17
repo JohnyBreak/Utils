@@ -1,17 +1,21 @@
+using UnityEngine;
+
 namespace Bootstrap
 {
     public class Bootstrap
     {
+        private readonly MonoBehaviour _coroutineRunner;
         private readonly IInitializer _initializer;
 
-        public Bootstrap(IInitializer initializer)
+        public Bootstrap(MonoBehaviour coroutineRunner,IInitializer initializer)
         {
+            _coroutineRunner = coroutineRunner;
             _initializer = initializer;
         }
 
         public void Start()
         {
-            _initializer.Start();
+            _coroutineRunner.StartCoroutine(_initializer.Start());
         }
 
         // 2 проекта 

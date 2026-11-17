@@ -1,7 +1,9 @@
+using System.Collections;
+
 namespace Bootstrap
 {
     public interface IInitializer
     {
-        void Start();
+        IEnumerator Start();
     }
 }
