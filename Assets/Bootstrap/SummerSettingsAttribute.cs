@@ -1,22 +1,18 @@
 using System;
+using System.Collections.Generic;
 
 namespace Bootstrap
 {
-    //нам нужна возможность добавлять новые этапы
-    public class MainStage
-    {
-        
-    }
-
-    //stage
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public class SummerSettingsAttribute : Attribute
     {
+        public readonly Type[] Dependencies;
         public Type StageType { get; }
         public int Order { get; }
 
-        public SummerSettingsAttribute(Type stageType, int order)
+        public SummerSettingsAttribute(Type stageType, int order, Type[] dependencies = null)
         {
+            Dependencies = dependencies;
             StageType = stageType;
             Order = order;
         }

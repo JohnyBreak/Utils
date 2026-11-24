@@ -2,11 +2,11 @@ using System;
 
 namespace Bootstrap.Strategies
 {
-    public class InterfaceStageIndexGetter : IGetStageIndexStrategy
+    public class InterfaceStageGetter : IGetStageStrategy
     {
         private readonly Func<object, Type, int> _getStageIndex;
 
-        public InterfaceStageIndexGetter(Func<object, Type, int> getStageIndex)
+        public InterfaceStageGetter(Func<object, Type, int> getStageIndex)
         {
             _getStageIndex = getStageIndex;
         }
@@ -20,6 +20,18 @@ namespace Bootstrap.Strategies
             }
             
             index = _getStageIndex.Invoke(obj, ((ISummerModule)obj).GetStage());
+            return true;
+        }
+
+        public bool TryGetStageType(object obj, out Type stageType)
+        {
+            if (!Accepted(obj))
+            {
+                stageType = null;
+                return false;
+            }
+
+            stageType = ((ISummerModule)obj).GetStage();
             return true;
         }
 

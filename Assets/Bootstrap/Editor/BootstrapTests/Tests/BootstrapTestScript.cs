@@ -690,11 +690,10 @@ ToggleLogIgnore(true);
             var validator = new SummerValidator(infoGetter);
 
             IInitializer initializer = new Initializer(
-                map,
+                //map,
                 modules,
-                infoGetter,
-                infoGetter,
                 validator,
+                new DefinitionsCreator(infoGetter),
                 3);
 
             return initializer;
@@ -714,15 +713,20 @@ ToggleLogIgnore(true);
             SummerInfoGetter CreateSummerInfoGetter()
             {
                 var result = new SummerInfoGetter(
-                    new List<IGetStageIndexStrategy>()
+                    new List<IGetStageStrategy>()
                     {
-                        new InterfaceStageIndexGetter(GetStageIndex),
-                        new AttributeStageIndexGetter(GetStageIndex),
+                        new InterfaceStageGetter(GetStageIndex),
+                        new AttributeStageGetter(GetStageIndex),
                     },
                     new List<IGetOrderStrategy>()
                     {
                         new InterfaceOrderGetter(),
                         new AttributeOrderGetter(),
+                    },
+                    new List<IGetDependenciesStrategy>()
+                    {
+                        new InterfaceDependenciesGetter(),
+                        new AttributeDependenciesGetter(),
                     });
 
                 return result;

@@ -4,11 +4,11 @@ using Bootstrap.Exceptions;
 
 namespace Bootstrap.Strategies
 {
-    public class AttributeStageIndexGetter : IGetStageIndexStrategy
+    public class AttributeStageGetter : IGetStageStrategy
     {
         private readonly Func<object, Type, int> _getStageIndex;
 
-        public AttributeStageIndexGetter(Func<object, Type, int> getStageIndex)
+        public AttributeStageGetter(Func<object, Type, int> getStageIndex)
         {
             _getStageIndex = getStageIndex;
         }
@@ -24,6 +24,18 @@ namespace Bootstrap.Strategies
             var type = GetStageType(obj);
             
             index = _getStageIndex.Invoke(obj, type);
+            return true;
+        }
+
+        public bool TryGetStageType(object obj, out Type stageType)
+        {
+            if (!Accepted(obj))
+            {
+                stageType = null;
+                return false;
+            }
+
+            stageType = GetStageType(obj);
             return true;
         }
 

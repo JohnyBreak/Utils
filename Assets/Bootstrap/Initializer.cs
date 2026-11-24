@@ -2,10 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Bootstrap.Exceptions;
-using Bootstrap.Strategies;
 using Bootstrap.Validation;
-using NUnit.Framework;
-using Unity.Android.Gradle;
 using UnityEngine;
 
 namespace Bootstrap
@@ -35,46 +32,49 @@ namespace Bootstrap
     public class Initializer : IInitializer
     {
         private readonly int _retryNumber = 3;
-        private readonly Dictionary<Type, int> _stages = new Dictionary<Type, int>();
+
+        private Dictionary<Type, SummerModuleDefinition> _definitions =
+            new Dictionary<Type, SummerModuleDefinition>();
+        
+        private Dictionary<Type, ModuleDecorator> _decorators =
+            new Dictionary<Type, ModuleDecorator>();
+        
         private readonly List<IExecutableModule> _sortedModules;
-        private readonly IGetStageIndexStrategy _stageIndexStrategy;
-        private readonly IGetOrderStrategy _orderStrategy;
+        private readonly DefinitionsCreator _definitionsCreator;
         private readonly ISummerValidator _validator;
         private bool _isComplete;
         
         public Initializer(
-            Dictionary<Type, int> stages,
-            List<IExecutableModule> sortedModules,
-            IGetStageIndexStrategy stageIndexStrategy,
-            IGetOrderStrategy orderStrategy,
+            List<IExecutableModule> modules,
             ISummerValidator validator,
+            DefinitionsCreator definitionsCreator,
             int retryNumber)
         {
-            _stages = stages;
-            _sortedModules = sortedModules;
-            _stageIndexStrategy = stageIndexStrategy;
-            _orderStrategy = orderStrategy;
+            _sortedModules = modules;
             _validator = validator;
+            _definitionsCreator = definitionsCreator;
             _retryNumber = retryNumber;
         }
 
-        public IEnumerator Start() // сделали ожидание исполнения
+        public IEnumerator Start()
         {
-            _validator.Validate(_sortedModules);
+            Prepare();
             
-            Sort(_sortedModules);
-            
-            foreach (var ordered in _sortedModules)
+            foreach (var module in _sortedModules)
             {
-                //if (ordered.dependencies.completed())//TODO нужно сделать зависимости
+                if (!IsDependenciesReady(module))
+                {
+                    yield return null;
+                }
+
                 {
                     var statusHolder = new PromiseStatusHolder();
                     
-                    yield return Execute(ordered, _retryNumber, statusHolder);
+                    yield return ExecuteModule(module, _retryNumber, statusHolder);
 
                     if (statusHolder.Status == SummerStatus.Error)
                     {
-                        throw new SummerModuleException($"{ordered.GetType()} Module Execution Error. Initialization stopped");
+                        throw new SummerModuleException($"{module.GetType()} Module Execution Error. Initialization stopped");
                     }
                     
                     if (statusHolder.Status == SummerStatus.Failed)
@@ -89,13 +89,59 @@ namespace Bootstrap
             _isComplete = true;
             Debug.Log("complete");
         }
-
+        
         public bool IsComplete()
         {
             return _isComplete;
         }
+        
+        private void Prepare()
+        {
+            _validator.Validate(_sortedModules);
+            
+            _definitions = _definitionsCreator.CreateDefinitions(_sortedModules);
+            
+            Sort(_sortedModules);
+            
+            Decorate(_sortedModules);
+        }
+        
+        private bool IsDependenciesReady(IExecutableModule module)
+        {
+            if (module is not ModuleDecorator)
+            {
+                throw new SummerModuleException($"Нет декоратора ModuleDecorator для {module.GetType()}");
+            }
 
-        private IEnumerator Execute(IExecutableModule ordered, int retryNumber, PromiseStatusHolder holder)
+            var definition = GetDefinition(((ModuleDecorator)module).GetOriginalType());
+
+            if (definition.Dependencies == null)
+            {
+                return true;
+            }
+
+            if (definition.Dependencies.Length < 1)
+            {
+                return true;
+            }
+
+            foreach (var dependency in definition.Dependencies)
+            {
+                if (!_decorators.TryGetValue(dependency, out var decorator))
+                {
+                    throw new SummerModuleException($"Нет декоратора ModuleDecorator для {dependency}");
+                }
+
+                if (!decorator.IsInitialized())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        
+        private IEnumerator ExecuteModule(IExecutableModule ordered, int retryNumber, PromiseStatusHolder holder)
         {
             for (int i = 0; i < retryNumber; i++)
             {
@@ -117,13 +163,25 @@ namespace Bootstrap
 
             holder.Status = SummerStatus.Error;
         }
+        
+        private void Decorate(List<IExecutableModule> sortedModules)
+        {
+            for (int i = 0; i < sortedModules.Count; i++)
+            {
+                var decorator = new ModuleDecorator(sortedModules[i]);
 
+                _decorators[sortedModules[i].GetType()] = decorator;
+                
+                sortedModules[i] = decorator;
+            }
+        }
+        
         private void Sort(List<IExecutableModule> modules)
         {
             modules.Sort(
                 (left, right) =>
                 {
-                    var stagesResult = GetStage(left).CompareTo(GetStage(right));
+                    var stagesResult = GetStageIndex(left).CompareTo(GetStageIndex(right));
                     
                     if(stagesResult != 0)
                     {
@@ -134,24 +192,37 @@ namespace Bootstrap
                 });
         }
 
-        private int GetStage(object obj)
+        private int GetStageIndex(object obj)
         {
-            if (!_stageIndexStrategy.TryGetStageIndex(obj, out var index))
-            {
-                throw new SummerModuleException($"У модуля {obj.GetType()} нет стадии");
-            }
-
-            return index;
+            var definition = GetDefinition(obj);
+            
+            return definition.StageIndex;
         }
 
-        private int GetOrder(object obj)//TODO дублирование с валидатором, куда можно вынести ?
+        private int GetOrder(object obj)
         {
-            if (!_orderStrategy.TryGetOrder(obj, out var order))
+            var definition = GetDefinition(obj);
+
+            return definition.Order;
+        }
+
+        private SummerModuleDefinition GetDefinition(object obj)
+        {
+            if (!_definitions.TryGetValue(obj.GetType(), out var definition))
             {
-                throw new SummerModuleException($"У модуля {obj.GetType()} нет ордера");
+                throw new SummerModuleException($"Для модуля {obj.GetType()} нет зарегистрированного definition");
             }
 
-            return order;
+            return definition;
+        }
+        private SummerModuleDefinition GetDefinition(Type type)
+        {
+            if (!_definitions.TryGetValue(type, out var definition))
+            {
+                throw new SummerModuleException($"Для модуля {type} нет зарегистрированного definition");
+            }
+
+            return definition;
         }
     }
 }
