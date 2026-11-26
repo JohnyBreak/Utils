@@ -31,9 +31,19 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
 
@@ -55,9 +65,19 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
 
@@ -78,9 +98,19 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
 
@@ -101,9 +131,19 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
 
@@ -124,9 +164,19 @@ namespace Bootstrap.Editor.BootstrapTests.Tests
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
 
@@ -247,9 +297,19 @@ ToggleLogIgnore(true);
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
         }
@@ -266,9 +326,19 @@ ToggleLogIgnore(true);
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
         }
@@ -285,9 +355,19 @@ ToggleLogIgnore(true);
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
         }
@@ -344,9 +424,19 @@ ToggleLogIgnore(true);
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
         }
@@ -363,9 +453,19 @@ ToggleLogIgnore(true);
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
         }
@@ -439,9 +539,19 @@ ToggleLogIgnore(true);
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
         }
@@ -514,7 +624,17 @@ ToggleLogIgnore(true);
                 _order = order;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
+            {
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
             {
                 return Promise.Success();
             }
@@ -576,9 +696,19 @@ ToggleLogIgnore(true);
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
         }
@@ -595,9 +725,19 @@ ToggleLogIgnore(true);
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
         }
@@ -614,9 +754,19 @@ ToggleLogIgnore(true);
                 _states = states;
             }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
             public Promise Execute()
             {
                 State = _states.Dequeue();
+                return Promise.Success();
+            }
+
+            public Promise PostExecute()
+            {
                 return Promise.Success();
             }
         }
@@ -667,8 +817,196 @@ ToggleLogIgnore(true);
             Assert.AreEqual(thirdState, module3.State);
             yield return null;
         }
+        
+        [SummerSettings(typeof(ThirdStage), 1)]
+        public class AttributeAsyncModule1 : IExecutableModule
+        {
+            private int _order;
+            private readonly Queue<int> _states;
+            private readonly CoroutineRunner _runner;
+            private readonly float _delaySeconds;
+            public int State;
+            private Promise _promise;
+            public AttributeAsyncModule1(Queue<int> states, CoroutineRunner runner, float delaySeconds)
+            {
+                _states = states;
+                _runner = runner;
+                _delaySeconds = delaySeconds;
+            }
 
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
+            public Promise Execute()
+            {
+                State = _states.Dequeue();
+                _promise = new Promise();
+                _runner.StartCoroutine(Delay());
+                return _promise;
+            }
+
+            public Promise PostExecute()
+            {
+                return Promise.Success();
+            }
+
+            private IEnumerator Delay()
+            {
+                if (_delaySeconds > 0)
+                {
+                    yield return new WaitForSeconds(_delaySeconds);
+                }
+                
+                _promise.Complete(SummerStatus.Success);
+            }
+        }
+        
+        [SummerSettings(typeof(ThirdStage), 2)]
+        public class AttributeAsyncModule2 : IExecutableModule
+        {
+            private int _order;
+            private readonly Queue<int> _states;
+            private readonly CoroutineRunner _runner;
+            private readonly float _delaySeconds;
+            public int State;
+            private Promise _promise;
+            public AttributeAsyncModule2(Queue<int> states, CoroutineRunner runner, float delaySeconds)
+            {
+                _states = states;
+                _runner = runner;
+                _delaySeconds = delaySeconds;
+            }
+
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
+            public Promise Execute()
+            {
+                State = _states.Dequeue();
+                _promise = new Promise();
+                _runner.StartCoroutine(Delay());
+                return _promise;
+            }
+
+            public Promise PostExecute()
+            {
+                return Promise.Success();
+            }
+
+            private IEnumerator Delay()
+            {
+                if (_delaySeconds > 0)
+                {
+                    yield return new WaitForSeconds(_delaySeconds);
+                }
+                
+                _promise.Complete(SummerStatus.Success);
+            }
+        }
+        
+        [SummerSettings(typeof(ThirdStage), 3, new []{typeof(AttributeAsyncModule1), typeof(AttributeAsyncModule2)})]
+        public class AttributeAsyncModule3 : IExecutableModule
+        {
+            private int _order;
+            private readonly Queue<int> _states;
+            private readonly CoroutineRunner _runner;
+            private readonly float _delaySeconds;
+            public int State;
+            private Promise _promise;
+            public AttributeAsyncModule3(Queue<int> states, CoroutineRunner runner, float delaySeconds)
+            {
+                _states = states;
+                _runner = runner;
+                _delaySeconds = delaySeconds;
+            }
+
+            public Promise PreExecute()
+            {
+                return Promise.Success();
+            }
+
+            public Promise Execute()
+            {
+                State = _states.Dequeue();
+                _promise = new Promise();
+                _runner.StartCoroutine(Delay());
+                return _promise;
+            }
+
+            public Promise PostExecute()
+            {
+                return Promise.Success();
+            }
+
+            private IEnumerator Delay()
+            {
+                if (_delaySeconds > 0)
+                {
+                    yield return new WaitForSeconds(_delaySeconds);
+                }
+                
+                _promise.Complete(SummerStatus.Success);
+            }
+        }
+        
+        [UnityTest]
+        public IEnumerator AsyncModuleInitialization_Success()
+        {
+            // arrange инициализация
+            const int firstState = 456;
+            const int secondState = 321;
+            const int thirdState = 999;
+
+            Queue<int> states = new Queue<int>();
+            states.Enqueue(firstState);
+            states.Enqueue(secondState);
+            states.Enqueue(thirdState);
+
+            var module1 = new AttributeAsyncModule1(states, GetCoroutineRunner(), 1);
+            var module2 = new AttributeAsyncModule2(states, GetCoroutineRunner(), 2);
+            var module3 = new AttributeAsyncModule3(states, GetCoroutineRunner(), 0);
+
+            var list = new List<IExecutableModule>()
+            {
+                module2,
+                module3,
+                module1
+            };
+
+            IInitializer initializer = CreateInitializer(new List<Type>()
+            {
+                typeof(FirstStage),
+                typeof(SecondStage),
+                typeof(ThirdStage)
+            }, list);
+
+            var bootstrap = GetBootstrap(initializer);
+            
+            // act действие
+            
+            bootstrap.Start();
+
+            // assert проверка
+
+            yield return new WaitUntil(bootstrap.IsComplete);
+            
+            Assert.AreEqual(firstState, module1.State);
+            Assert.AreEqual(secondState, module2.State);
+            Assert.AreEqual(thirdState, module3.State);
+            yield return null;
+        }
+        
         private Bootstrap GetBootstrap(IInitializer initializer)
+        {
+            var bootstrap = new Bootstrap(GetCoroutineRunner(), initializer);
+            return bootstrap;
+        }
+
+        private CoroutineRunner GetCoroutineRunner()
         {
             if (_runner == null)
             {
@@ -676,76 +1014,16 @@ ToggleLogIgnore(true);
                 _runner = go.AddComponent<CoroutineRunner>();
             }
 
-
-            var bootstrap = new Bootstrap(_runner, initializer);
-            return bootstrap;
+            return _runner;
         }
 
         private IInitializer CreateInitializer(List<Type> stages, List<IExecutableModule> modules)
         {
-            var map = GetStagesMap(stages);
-
-            var infoGetter = CreateSummerInfoGetter();
-
-            var validator = new SummerValidator(infoGetter);
-
             IInitializer initializer = new Initializer(
-                //map,
-                modules,
-                validator,
-                new DefinitionsCreator(infoGetter),
-                3);
+                stages,
+                modules);
 
             return initializer;
-
-            Dictionary<Type, int> GetStagesMap(List<Type> list)
-            {
-                Dictionary<Type, int> stages = new Dictionary<Type, int>();
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    stages[list[i]] = i;
-                }
-
-                return stages;
-            }
-
-            SummerInfoGetter CreateSummerInfoGetter()
-            {
-                var result = new SummerInfoGetter(
-                    new List<IGetStageStrategy>()
-                    {
-                        new InterfaceStageGetter(GetStageIndex),
-                        new AttributeStageGetter(GetStageIndex),
-                    },
-                    new List<IGetOrderStrategy>()
-                    {
-                        new InterfaceOrderGetter(),
-                        new AttributeOrderGetter(),
-                    },
-                    new List<IGetDependenciesStrategy>()
-                    {
-                        new InterfaceDependenciesGetter(),
-                        new AttributeDependenciesGetter(),
-                    });
-
-                return result;
-            }
-
-            int GetStageIndex(object obj, Type type)
-            {
-                if (type == null)
-                {
-                    throw new SummerModuleException($"У модуля {obj.GetType()} null стадия");
-                }
-
-                if (!map.TryGetValue(type, out var index))
-                {
-                    throw new SummerModuleException($"У модуля {obj.GetType()} не зарегистрированная стадия {type}");
-                }
-
-                return index;
-            }
         }
         
         private void ToggleLogIgnore(bool ignore)

@@ -5,10 +5,10 @@ namespace Bootstrap
 {
     public class Bootstrap
     {
-        private readonly MonoBehaviour _coroutineRunner;
+        private readonly CoroutineRunner _coroutineRunner;
         private readonly IInitializer _initializer;
 
-        public Bootstrap(MonoBehaviour coroutineRunner,IInitializer initializer)
+        public Bootstrap(CoroutineRunner coroutineRunner, IInitializer initializer)
         {
             _coroutineRunner = coroutineRunner;
             _initializer = initializer;

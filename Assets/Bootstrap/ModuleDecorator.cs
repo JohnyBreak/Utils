@@ -12,9 +12,21 @@ namespace Bootstrap
             _original = original;
         }
 
+        public Promise PreExecute()// TODO надо ли заводить отдельные промисы под каждый инит
+        {
+            _promise = _original.PreExecute();
+            return _promise;
+        }
+
         public Promise Execute()
         {
             _promise = _original.Execute();
+            return _promise;
+        }
+
+        public Promise PostExecute()
+        {
+            _promise = _original.PostExecute();
             return _promise;
         }
 

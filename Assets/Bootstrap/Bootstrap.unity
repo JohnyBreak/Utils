@@ -172,26 +172,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 471796462}
-  - component: {fileID: 471796461}
+  - component: {fileID: 471796463}
   m_Layer: 0
-  m_Name: Module2
+  m_Name: Module3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &471796461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 471796460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 651e6476890575f43aca229224725fe4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Module2
 --- !u!4 &471796462
 Transform:
   m_ObjectHideFlags: 0
@@ -207,6 +195,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &471796463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471796460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 651e6476890575f43aca229224725fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Summer.Module3
 --- !u!1 &917628510
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,6 +482,7 @@ GameObject:
   - component: {fileID: 2077055876}
   - component: {fileID: 2077055875}
   - component: {fileID: 2077055874}
+  - component: {fileID: 2077055877}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -501,8 +502,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b643e8dd69505b4fa50b4946771a09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModuleInstaller
-  _module2: {fileID: 471796461}
+  module3: {fileID: 471796463}
   _bootstrapStarter: {fileID: 301883718}
+  _runner: {fileID: 2077055877}
 --- !u!114 &2077055875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,6 +552,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2077055877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077055873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c92184c4bc4feeb3373122d58d1230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Bootstrap::Bootstrap.CoroutineRunner
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

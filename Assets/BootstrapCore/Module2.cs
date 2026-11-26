@@ -1,17 +1,24 @@
 using Bootstrap;
 using UnityEngine;
-using Zenject;
 
 namespace Summer
 {
-    [SummerSettings(typeof(MainStage), 2)]
-    public class Module2 : MonoBehaviour, IExecutableModule
+    [SummerSettings(typeof(FirstStage), 2)]
+    public class Module2 : IExecutableModule
     {
-        [Inject] private Module1 _module1;
+        public Promise PreExecute()
+        {
+            return Promise.Success();
+        }
 
         public Promise Execute()
         {
             Debug.Log("2");
+            return Promise.Success();
+        }
+
+        public Promise PostExecute()
+        {
             return Promise.Success();
         }
     }
